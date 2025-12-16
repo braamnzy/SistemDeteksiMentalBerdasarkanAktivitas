@@ -5,7 +5,7 @@ import math
 from datetime import datetime
 
 # Pastikan URL ini sesuai dengan IP tempat app.py dijalankan
-SERVER_URL = "http://127.0.0.1:5000/receive_sensor" 
+SERVER_URL = "http://192.168.1.50:5000/receive_sensor" 
 SIMULATION_INTERVAL = 10  # Dipercepat jadi 10 detik biar dashboard kelihatan hidup
 
 class RealisticSensor:

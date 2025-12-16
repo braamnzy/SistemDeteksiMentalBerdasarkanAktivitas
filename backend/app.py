@@ -203,7 +203,7 @@ if __name__ == "__main__":
     print("🚀 Stress Detection System - Server Started")
     print("=" * 60)
     print("Dashboard: http://localhost:5000")
-    print("Test dari HP: http://192.168.1.11:5000/test")
+    print("Test dari HP: http://192.168.1.50:5000/test")
     print("\nAPI Endpoints:")
     print("  - POST /receive_sensor (IoT data)")
     print("  - POST /receive_usage (Android screen time)")
