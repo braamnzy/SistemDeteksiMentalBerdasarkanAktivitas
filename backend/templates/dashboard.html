@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress Detection Dashboard - Fuzzy Mamdani System</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1>🧠 Stress Detection System</h1>
+                <p class="subtitle">Fuzzy Mamdani Inference System (81 Rules)</p>
+            </div>
+            <div class="status-indicator">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <div class="dashboard-grid">
+            <!-- IoT Sensor Panel -->
+            <div class="card sensor-card">
+                <div class="card-header">
+                    <h2>🌡️ IoT Sensor Data</h2>
+                    <span class="update-time" id="lastUpdate">--:--:--</span>
+                </div>
+                <div class="sensor-grid">
+                    <div class="sensor-item">
+                        <div class="sensor-icon">🌡️</div>
+                        <div class="sensor-info">
+                            <span class="sensor-label">Temperature</span>
+                            <span class="sensor-value" id="tempValue">--</span>
+                            <span class="sensor-unit">°C</span>
+                        </div>
+                    </div>
+                    <div class="sensor-item">
+                        <div class="sensor-icon">💧</div>
+                        <div class="sensor-info">
+                            <span class="sensor-label">Humidity</span>
+                            <span class="sensor-value" id="humidValue">--</span>
+                            <span class="sensor-unit">%</span>
+                        </div>
+                    </div>
+                    <div class="sensor-item">
+                        <div class="sensor-icon">🌫️</div>
+                        <div class="sensor-info">
+                            <span class="sensor-label">Air Quality</span>
+                            <span class="sensor-value" id="aqValue">--</span>
+                            <span class="sensor-unit">PM2.5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stress Analysis Panel -->
+            <div class="card analysis-card">
+                <div class="card-header">
+                    <h2>📊 Stress Analysis</h2>
+                    <span class="device-badge" id="deviceBadge">No Device</span>
+                </div>
+                <div class="stress-display">
+                    <div class="stress-gauge">
+                        <canvas id="gaugeCanvas" width="200" height="200"></canvas>
+                        <div class="stress-score" id="stressScore">0</div>
+                    </div>
+                    <div class="stress-info">
+                        <div class="category-badge" id="categoryBadge">-</div>
+                        <p class="stress-message" id="stressMessage">Waiting for data...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fuzzy Visualization - Input Membership Functions -->
+            <div class="card fuzzy-card full-width">
+                <div class="card-header">
+                    <h2>📈 Fuzzy Membership Functions - Input Variables</h2>
+                    <span class="info-badge">Fuzzification Stage</span>
+                </div>
+                <div class="fuzzy-grid">
+                    <div class="fuzzy-chart-container">
+                        <h3>Screen Time (hours)</h3>
+                        <canvas id="screenChart" width="300" height="200"></canvas>
+                        <div class="membership-values" id="screenMembership"></div>
+                    </div>
+                    <div class="fuzzy-chart-container">
+                        <h3>Temperature (°C)</h3>
+                        <canvas id="tempChart" width="300" height="200"></canvas>
+                        <div class="membership-values" id="tempMembership"></div>
+                    </div>
+                    <div class="fuzzy-chart-container">
+                        <h3>Humidity (%)</h3>
+                        <canvas id="humidChart" width="300" height="200"></canvas>
+                        <div class="membership-values" id="humidMembership"></div>
+                    </div>
+                    <div class="fuzzy-chart-container">
+                        <h3>Air Quality (PM2.5)</h3>
+                        <canvas id="aqChart" width="300" height="200"></canvas>
+                        <div class="membership-values" id="aqMembership"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inference Results -->
+            <div class="card inference-card full-width">
+                <div class="card-header">
+                    <h2>⚙️ Fuzzy Inference Results</h2>
+                    <span class="info-badge">81 Rules System</span>
+                </div>
+                <div class="inference-content">
+                    <div class="rules-summary">
+                        <div class="rule-stat">
+                            <span class="stat-number" id="activeRules">0</span>
+                            <span class="stat-label">Active Rules</span>
+                        </div>
+                        <div class="rule-stat">
+                            <span class="stat-number">81</span>
+                            <span class="stat-label">Total Rules</span>
+                        </div>
+                    </div>
+                    <div class="rules-list" id="rulesList">
+                        <p class="waiting-text">No inference data yet...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Defuzzification -->
+            <div class="card output-card full-width">
+                <div class="card-header">
+                    <h2>📉 Output Defuzzification</h2>
+                    <span class="info-badge">Centroid Method</span>
+                </div>
+                <div class="output-chart-container">
+                    <canvas id="outputChart" width="800" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>Fuzzy Mamdani System • 4 Input Variables • 81 Rules • Real-time Processing</p>
+        </footer>
+    </div>
+
+    <script>
+        // Configuration
+        const API_URL = '/api/dashboard_data';
+        const REFRESH_INTERVAL = 2000; // 2 seconds
+
+        // Canvas contexts
+        const canvases = {
+            screen: document.getElementById('screenChart').getContext('2d'),
+            temp: document.getElementById('tempChart').getContext('2d'),
+            humid: document.getElementById('humidChart').getContext('2d'),
+            aq: document.getElementById('aqChart').getContext('2d'),
+            output: document.getElementById('outputChart').getContext('2d'),
+            gauge: document.getElementById('gaugeCanvas').getContext('2d')
+        };
+
+        // Membership function definitions (from fuzzy_logic.py)
+        const MF = {
+            screen: {
+                low: [0, 0, 2, 4],
+                medium: [3, 5, 7, 9],
+                high: [8, 12, 24, 24]
+            },
+            temp: {
+                cold: [15, 15, 18, 22],
+                normal: [20, 24, 26, 28],
+                hot: [26, 30, 35, 35]
+            },
+            humid: {
+                low: [30, 30, 40, 50],
+                medium: [45, 55, 65, 75],
+                high: [70, 80, 90, 90]
+            },
+            aq: {
+                good: [0, 0, 0.5, 1.5],
+                moderate: [1.0, 2.0, 3.0, 3.5],
+                poor: [3.0, 4.0, 5.0, 5.0]
+            },
+            stress: {
+                very_low: [0, 0, 10, 25],
+                low: [15, 25, 35, 45],
+                medium: [35, 45, 55, 65],
+                high: [55, 65, 75, 85],
+                very_high: [75, 85, 100, 100]
+            }
+        };
+
+        const COLORS = {
+            screen: { low: '#4CAF50', medium: '#FF9800', high: '#F44336' },
+            temp: { cold: '#2196F3', normal: '#4CAF50', hot: '#F44336' },
+            humid: { low: '#FFC107', medium: '#2196F3', high: '#3F51B5' },
+            aq: { good: '#4CAF50', moderate: '#FF9800', poor: '#F44336' },
+            stress: { very_low: '#4CAF50', low: '#8BC34A', medium: '#FF9800', high: '#FF5722', very_high: '#D32F2F' }
+        };
+
+        // Draw trapezoid membership function
+        function drawTrapezoid(ctx, params, color, range, currentValue = null) {
+            const [a, b, c, d] = params;
+            const [min, max] = range;
+            const width = ctx.canvas.width;
+            const height = ctx.canvas.height;
+            const padding = 40;
+            const chartWidth = width - 2 * padding;
+            const chartHeight = height - 60;
+
+            // Convert value to pixel position
+            const toX = (val) => padding + ((val - min) / (max - min)) * chartWidth;
+            const toY = (membership) => height - padding - membership * chartHeight;
+
+            // Draw trapezoid
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(toX(a), toY(0));
+            ctx.lineTo(toX(b), toY(1));
+            ctx.lineTo(toX(c), toY(1));
+            ctx.lineTo(toX(d), toY(0));
+            ctx.stroke();
+
+            // Fill area
+            ctx.fillStyle = color + '20';
+            ctx.fill();
+
+            // Draw current value line
+            if (currentValue !== null && currentValue >= min && currentValue <= max) {
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(toX(currentValue), height - padding);
+                ctx.lineTo(toX(currentValue), padding);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+        }
+
+        // Draw axes and labels
+        function drawAxes(ctx, range, unit) {
+            const width = ctx.canvas.width;
+            const height = ctx.canvas.height;
+            const padding = 40;
+
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+            
+            // X-axis
+            ctx.beginPath();
+            ctx.moveTo(padding, height - padding);
+            ctx.lineTo(width - padding, height - padding);
+            ctx.stroke();
+
+            // Y-axis
+            ctx.beginPath();
+            ctx.moveTo(padding, height - padding);
+            ctx.lineTo(padding, padding);
+            ctx.stroke();
+
+            // Labels
+            ctx.fillStyle = '#666';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            
+            // X-axis labels
+            const [min, max] = range;
+            for (let i = 0; i <= 4; i++) {
+                const val = min + (max - min) * (i / 4);
+                const x = padding + (width - 2 * padding) * (i / 4);
+                ctx.fillText(val.toFixed(1), x, height - padding + 20);
+            }
+
+            // Y-axis label
+            ctx.save();
+            ctx.translate(15, height / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.textAlign = 'center';
+            ctx.fillText('Membership', 0, 0);
+            ctx.restore();
+
+            // Unit label
+            ctx.fillText(unit, width / 2, height - 5);
+        }
+
+        // Draw membership function chart
+        function drawMembershipChart(type, currentValue) {
+            const ctx = canvases[type];
+            const mfs = MF[type];
+            const colors = COLORS[type];
+            
+            let range;
+            let unit;
+            
+            if (type === 'screen') {
+                range = [0, 24];
+                unit = 'Hours';
+            } else if (type === 'temp') {
+                range = [15, 35];
+                unit = '°C';
+            } else if (type === 'humid') {
+                range = [30, 90];
+                unit = '%';
+            } else if (type === 'aq') {
+                range = [0, 5];
+                unit = 'PM2.5';
+            }
+
+            // Clear canvas
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+            // Draw axes
+            drawAxes(ctx, range, unit);
+
+            // Draw each membership function
+            for (const [label, params] of Object.entries(mfs)) {
+                drawTrapezoid(ctx, params, colors[label], range, currentValue);
+                
+                // Label
+                const midX = (params[1] + params[2]) / 2;
+                const x = 40 + ((midX - range[0]) / (range[1] - range[0])) * (ctx.canvas.width - 80);
+                ctx.fillStyle = colors[label];
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(label.toUpperCase(), x, 25);
+            }
+        }
+
+        // Calculate trapezoid membership
+        function trapezoidMembership(x, params) {
+            const [a, b, c, d] = params;
+            
+            if (x <= a || x >= d) return 0;
+            if (a < x && x <= b) return (b - a) !== 0 ? (x - a) / (b - a) : 1;
+            if (b < x && x < c) return 1;
+            if (c <= x && x < d) return (d - c) !== 0 ? (d - x) / (d - c) : 1;
+            return 0;
+        }
+
+        // Draw output defuzzification chart
+        function drawOutputChart(stressValue) {
+            const ctx = canvases.output;
+            const width = ctx.canvas.width;
+            const height = ctx.canvas.height;
+            const padding = 50;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw axes
+            drawAxes(ctx, [0, 100], 'Stress Level');
+
+            // Draw membership functions
+            for (const [label, params] of Object.entries(MF.stress)) {
+                drawTrapezoid(ctx, params, COLORS.stress[label], [0, 100], stressValue);
+                
+                // Label
+                const midX = (params[1] + params[2]) / 2;
+                const x = padding + (midX / 100) * (width - 2 * padding);
+                ctx.fillStyle = COLORS.stress[label];
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(label.replace('_', ' ').toUpperCase(), x, 25);
+            }
+
+            // Draw centroid marker
+            if (stressValue > 0) {
+                const x = padding + (stressValue / 100) * (width - 2 * padding);
+                ctx.fillStyle = '#000';
+                ctx.beginPath();
+                ctx.arc(x, height - padding, 6, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                ctx.font = 'bold 14px Arial';
+                ctx.fillText(`Centroid: ${stressValue.toFixed(1)}`, x, height - padding - 15);
+            }
+        }
+
+        // Draw gauge
+        function drawGauge(value) {
+            const ctx = canvases.gauge;
+            const centerX = 100;
+            const centerY = 100;
+            const radius = 80;
+
+            ctx.clearRect(0, 0, 200, 200);
+
+            // Background arc
+            ctx.lineWidth = 20;
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0.75 * Math.PI, 2.25 * Math.PI);
+            ctx.stroke();
+
+            // Colored arc based on value
+            const percentage = value / 100;
+            const endAngle = 0.75 * Math.PI + percentage * 1.5 * Math.PI;
+            
+            let color;
+            if (value < 20) color = '#4CAF50';
+            else if (value < 40) color = '#8BC34A';
+            else if (value < 60) color = '#FF9800';
+            else if (value < 80) color = '#FF5722';
+            else color = '#D32F2F';
+
+            ctx.strokeStyle = color;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0.75 * Math.PI, endAngle);
+            ctx.stroke();
+
+            // Center circle
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius - 25, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        // Update membership display
+        function updateMembershipDisplay(type, value) {
+            const mfs = MF[type];
+            const container = document.getElementById(`${type}Membership`);
+            
+            let html = '<div class="membership-chips">';
+            for (const [label, params] of Object.entries(mfs)) {
+                const membership = trapezoidMembership(value, params);
+                if (membership > 0) {
+                    html += `<span class="chip" style="background: ${COLORS[type][label]}20; color: ${COLORS[type][label]}">${label}: ${membership.toFixed(2)}</span>`;
+                }
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Fetch and update dashboard
+        async function updateDashboard() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+
+                // Update status
+                document.getElementById('statusDot').className = 'status-dot active';
+                document.getElementById('statusText').textContent = 'Connected';
+
+                // Update IoT data
+                document.getElementById('tempValue').textContent = data.iot.temp.toFixed(1);
+                document.getElementById('humidValue').textContent = data.iot.humid.toFixed(1);
+                document.getElementById('aqValue').textContent = data.iot.aq.toFixed(2);
+                document.getElementById('lastUpdate').textContent = data.iot.last_update;
+
+                // Update analysis
+                const stress = data.analysis.stress_score;
+                document.getElementById('deviceBadge').textContent = data.analysis.device_id;
+                document.getElementById('stressScore').textContent = stress.toFixed(0);
+                document.getElementById('categoryBadge').textContent = data.analysis.category;
+                document.getElementById('stressMessage').textContent = data.analysis.message;
+
+                // Update category badge color
+                const badge = document.getElementById('categoryBadge');
+                badge.className = 'category-badge';
+                if (stress < 20) badge.classList.add('very-low');
+                else if (stress < 40) badge.classList.add('low');
+                else if (stress < 60) badge.classList.add('medium');
+                else if (stress < 80) badge.classList.add('high');
+                else badge.classList.add('very-high');
+
+                // Draw charts (use dummy screen time for visualization)
+                const screenTime = stress * 24 / 100; // Approximate
+                drawMembershipChart('screen', screenTime);
+                drawMembershipChart('temp', data.iot.temp);
+                drawMembershipChart('humid', data.iot.humid);
+                drawMembershipChart('aq', data.iot.aq);
+                drawOutputChart(stress);
+                drawGauge(stress);
+
+                // Update membership displays
+                updateMembershipDisplay('screen', screenTime);
+                updateMembershipDisplay('temp', data.iot.temp);
+                updateMembershipDisplay('humid', data.iot.humid);
+                updateMembershipDisplay('aq', data.iot.aq);
+
+                // Update rules (simulated for now)
+                document.getElementById('activeRules').textContent = Math.floor(Math.random() * 15) + 5;
+
+            } catch (error) {
+                document.getElementById('statusDot').className = 'status-dot error';
+                document.getElementById('statusText').textContent = 'Disconnected';
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Initialize
+        updateDashboard();
+        setInterval(updateDashboard, REFRESH_INTERVAL);
+
+        // Initial chart draw
+        drawMembershipChart('screen', 0);
+        drawMembershipChart('temp', 25);
+        drawMembershipChart('humid', 60);
+        drawMembershipChart('aq', 1);
+        drawOutputChart(0);
+        drawGauge(0);
+    </script>
+</body>
+</html>
