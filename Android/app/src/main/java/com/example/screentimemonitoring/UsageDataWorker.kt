@@ -238,8 +238,9 @@ class UsageDataWorker(appContext: Context, workerParams: WorkerParameters) :
             if (responseBody != null) {
                 val json = JSONObject(responseBody)
 
-                val level = json.optString("level", "rendah")
+                val level = json.optString("level", "Very Low Stress")  // ✅ Default bahasa Inggris
                 val message = json.optString("message", "")
+
                 val prefs = applicationContext.getSharedPreferences(
                     "stress_prefs",
                     Context.MODE_PRIVATE
@@ -249,10 +250,12 @@ class UsageDataWorker(appContext: Context, workerParams: WorkerParameters) :
                     .putString("last_stress_message", message)
                     .apply()
 
-                if (level.equals("tinggi", ignoreCase = true) && message.isNotEmpty()) {
+                // ✅ Cek level bahasa Inggris (High Stress atau Very High Stress)
+                if ((level.contains("High Stress", ignoreCase = true)) && message.isNotEmpty()) {
                     showNotification(message)
-                    Log.d(TAG, "Notifikasi ditampilkan (level: tinggi)")
+                    Log.d(TAG, "Notifikasi ditampilkan (level: $level)")
                 } else {
+                    showNotification(message)
                     Log.d(TAG, "Level $level → tidak ada notifikasi")
                 }
             }
