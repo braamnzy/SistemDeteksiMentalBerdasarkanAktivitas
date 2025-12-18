@@ -19,3 +19,343 @@ timestamp,app_name,duration_sec
 2025-12-16 23:46:27,com.facebook.katana,1811
 2025-12-16 23:46:27,com.android.chrome,1756
 2025-12-16 23:46:27,com.twitter.android,1488
+2025-12-17 00:01:28,com.whatsapp,4987
+2025-12-17 00:01:28,com.google.android.youtube,4474
+2025-12-17 00:01:28,com.ss.android.ugc.trill,2938
+2025-12-17 00:01:28,System launcher,2848
+2025-12-17 00:01:28,com.android.chrome,1756
+2025-12-17 00:01:28,com.facebook.katana,1568
+2025-12-17 00:01:28,com.openai.chatgpt,737
+2025-12-17 00:01:28,com.mobile.legends,690
+2025-12-17 00:01:28,com.google.android.googlequicksearchbox,531
+2025-12-17 00:01:28,com.instagram.android,351
+2025-12-17 00:16:28,com.google.android.youtube,5524
+2025-12-17 00:16:28,com.whatsapp,5344
+2025-12-17 00:16:28,com.ss.android.ugc.trill,2938
+2025-12-17 00:16:28,System launcher,2852
+2025-12-17 00:16:28,com.android.chrome,1756
+2025-12-17 00:16:28,com.facebook.katana,1568
+2025-12-17 00:16:28,com.openai.chatgpt,737
+2025-12-17 00:16:28,com.mobile.legends,690
+2025-12-17 00:16:28,com.google.android.googlequicksearchbox,531
+2025-12-17 00:16:28,com.instagram.android,351
+2025-12-17 00:31:29,com.whatsapp,5525
+2025-12-17 00:31:29,com.google.android.youtube,5524
+2025-12-17 00:31:29,com.ss.android.ugc.trill,2938
+2025-12-17 00:31:29,System launcher,2862
+2025-12-17 00:31:29,com.android.chrome,1833
+2025-12-17 00:31:29,com.facebook.katana,1568
+2025-12-17 00:31:29,com.instagram.android,974
+2025-12-17 00:31:29,com.openai.chatgpt,737
+2025-12-17 00:31:29,com.mobile.legends,690
+2025-12-17 00:31:29,com.google.android.googlequicksearchbox,539
+2025-12-17 00:46:29,com.whatsapp,5525
+2025-12-17 00:46:29,com.google.android.youtube,5524
+2025-12-17 00:46:29,com.ss.android.ugc.trill,2981
+2025-12-17 00:46:29,System launcher,2865
+2025-12-17 00:46:29,com.android.chrome,1833
+2025-12-17 00:46:29,com.facebook.katana,1568
+2025-12-17 00:46:29,com.instagram.android,1233
+2025-12-17 00:46:29,com.openai.chatgpt,737
+2025-12-17 00:46:29,com.mobile.legends,690
+2025-12-17 00:46:29,com.google.android.googlequicksearchbox,539
+2025-12-17 01:01:30,com.google.android.youtube,6508
+2025-12-17 01:01:30,com.whatsapp,5525
+2025-12-17 01:01:30,com.ss.android.ugc.trill,2981
+2025-12-17 01:01:30,System launcher,2865
+2025-12-17 01:01:30,com.android.chrome,1833
+2025-12-17 01:01:30,com.facebook.katana,1568
+2025-12-17 01:01:30,com.instagram.android,1233
+2025-12-17 01:01:30,com.openai.chatgpt,737
+2025-12-17 01:01:30,com.mobile.legends,690
+2025-12-17 01:01:30,com.google.android.googlequicksearchbox,539
+2025-12-17 01:16:30,com.google.android.youtube,7708
+2025-12-17 01:16:30,com.whatsapp,5525
+2025-12-17 01:16:30,com.ss.android.ugc.trill,2981
+2025-12-17 01:16:30,System launcher,2865
+2025-12-17 01:16:30,com.android.chrome,1833
+2025-12-17 01:16:30,com.facebook.katana,1568
+2025-12-17 01:16:30,com.instagram.android,1233
+2025-12-17 01:16:30,com.openai.chatgpt,737
+2025-12-17 01:16:30,com.mobile.legends,690
+2025-12-17 01:16:30,com.google.android.googlequicksearchbox,539
+2025-12-17 01:31:30,com.google.android.youtube,7708
+2025-12-17 01:31:30,com.whatsapp,5525
+2025-12-17 01:31:30,com.ss.android.ugc.trill,2981
+2025-12-17 01:31:30,System launcher,2865
+2025-12-17 01:31:30,com.android.chrome,1833
+2025-12-17 01:31:30,com.facebook.katana,1568
+2025-12-17 01:31:30,com.instagram.android,1233
+2025-12-17 01:31:30,com.openai.chatgpt,737
+2025-12-17 01:31:30,com.mobile.legends,690
+2025-12-17 01:31:30,com.google.android.googlequicksearchbox,539
+2025-12-17 01:46:31,com.google.android.youtube,8875
+2025-12-17 01:46:31,com.whatsapp,5534
+2025-12-17 01:46:31,com.ss.android.ugc.trill,3241
+2025-12-17 01:46:31,System launcher,2870
+2025-12-17 01:46:31,com.android.chrome,1833
+2025-12-17 01:46:31,com.facebook.katana,1568
+2025-12-17 01:46:31,com.instagram.android,1233
+2025-12-17 01:46:31,com.openai.chatgpt,737
+2025-12-17 01:46:31,com.mobile.legends,690
+2025-12-17 01:46:31,com.google.android.googlequicksearchbox,539
+2025-12-17 02:01:31,com.google.android.youtube,10120
+2025-12-17 02:01:31,com.whatsapp,5534
+2025-12-17 02:01:31,com.ss.android.ugc.trill,3241
+2025-12-17 02:01:31,System launcher,2872
+2025-12-17 02:01:31,com.android.chrome,1833
+2025-12-17 02:01:31,com.facebook.katana,1568
+2025-12-17 02:01:31,com.instagram.android,1313
+2025-12-17 02:01:31,com.openai.chatgpt,737
+2025-12-17 02:01:31,com.mobile.legends,690
+2025-12-17 02:01:31,com.google.android.googlequicksearchbox,539
+2025-12-17 02:16:31,com.google.android.youtube,10120
+2025-12-17 02:16:31,com.whatsapp,5534
+2025-12-17 02:16:31,com.ss.android.ugc.trill,3241
+2025-12-17 02:16:31,System launcher,2891
+2025-12-17 02:16:31,com.android.chrome,2096
+2025-12-17 02:16:31,com.instagram.android,1742
+2025-12-17 02:16:31,com.facebook.katana,1568
+2025-12-17 02:16:31,com.openai.chatgpt,737
+2025-12-17 02:16:31,com.mobile.legends,690
+2025-12-17 02:16:31,com.google.android.googlequicksearchbox,539
+2025-12-17 02:31:32,com.google.android.youtube,10120
+2025-12-17 02:31:32,com.whatsapp,5534
+2025-12-17 02:31:32,com.ss.android.ugc.trill,3241
+2025-12-17 02:31:32,System launcher,2902
+2025-12-17 02:31:32,com.android.chrome,2100
+2025-12-17 02:31:32,com.instagram.android,1742
+2025-12-17 02:31:32,com.facebook.katana,1568
+2025-12-17 02:31:32,com.twitter.android,751
+2025-12-17 02:31:32,com.openai.chatgpt,737
+2025-12-17 02:31:32,com.mobile.legends,690
+2025-12-17 02:46:32,com.google.android.youtube,10120
+2025-12-17 02:46:32,com.whatsapp,5534
+2025-12-17 02:46:32,com.ss.android.ugc.trill,3241
+2025-12-17 02:46:32,System launcher,2902
+2025-12-17 02:46:32,com.android.chrome,2100
+2025-12-17 02:46:32,com.instagram.android,1742
+2025-12-17 02:46:32,com.facebook.katana,1568
+2025-12-17 02:46:32,com.twitter.android,751
+2025-12-17 02:46:32,com.openai.chatgpt,737
+2025-12-17 02:46:32,com.mobile.legends,690
+2025-12-17 03:01:33,com.google.android.youtube,10120
+2025-12-17 03:01:33,com.whatsapp,5534
+2025-12-17 03:01:33,com.ss.android.ugc.trill,3241
+2025-12-17 03:01:33,System launcher,2902
+2025-12-17 03:01:33,com.android.chrome,2100
+2025-12-17 03:01:33,com.instagram.android,1742
+2025-12-17 03:01:33,com.facebook.katana,1568
+2025-12-17 03:01:33,com.twitter.android,751
+2025-12-17 03:01:33,com.openai.chatgpt,737
+2025-12-17 03:01:33,com.mobile.legends,690
+2025-12-17 03:16:33,com.google.android.youtube,10120
+2025-12-17 03:16:33,com.whatsapp,5534
+2025-12-17 03:16:33,com.ss.android.ugc.trill,3241
+2025-12-17 03:16:33,System launcher,2902
+2025-12-17 03:16:33,com.android.chrome,2100
+2025-12-17 03:16:33,com.instagram.android,1742
+2025-12-17 03:16:33,com.facebook.katana,1568
+2025-12-17 03:16:33,com.twitter.android,751
+2025-12-17 03:16:33,com.openai.chatgpt,737
+2025-12-17 03:16:33,com.mobile.legends,690
+2025-12-17 03:31:33,com.google.android.youtube,10120
+2025-12-17 03:31:33,com.whatsapp,5534
+2025-12-17 03:31:33,com.ss.android.ugc.trill,3241
+2025-12-17 03:31:33,System launcher,2902
+2025-12-17 03:31:33,com.android.chrome,2100
+2025-12-17 03:31:33,com.instagram.android,1742
+2025-12-17 03:31:33,com.facebook.katana,1568
+2025-12-17 03:31:33,com.twitter.android,751
+2025-12-17 03:31:33,com.openai.chatgpt,737
+2025-12-17 03:31:33,com.mobile.legends,690
+2025-12-17 03:46:34,com.google.android.youtube,10120
+2025-12-17 03:46:34,com.whatsapp,5534
+2025-12-17 03:46:34,com.ss.android.ugc.trill,3241
+2025-12-17 03:46:34,System launcher,2902
+2025-12-17 03:46:34,com.android.chrome,2100
+2025-12-17 03:46:34,com.instagram.android,1742
+2025-12-17 03:46:34,com.facebook.katana,1568
+2025-12-17 03:46:34,com.twitter.android,751
+2025-12-17 03:46:34,com.openai.chatgpt,737
+2025-12-17 03:46:34,com.mobile.legends,690
+2025-12-17 04:01:34,com.google.android.youtube,10120
+2025-12-17 04:01:34,com.whatsapp,5534
+2025-12-17 04:01:34,com.ss.android.ugc.trill,3241
+2025-12-17 04:01:34,System launcher,2902
+2025-12-17 04:01:34,com.android.chrome,2100
+2025-12-17 04:01:34,com.instagram.android,1742
+2025-12-17 04:01:34,com.facebook.katana,1568
+2025-12-17 04:01:34,com.twitter.android,751
+2025-12-17 04:01:34,com.openai.chatgpt,737
+2025-12-17 04:01:34,com.mobile.legends,690
+2025-12-17 04:16:34,com.google.android.youtube,10120
+2025-12-17 04:16:34,com.whatsapp,5534
+2025-12-17 04:16:34,com.ss.android.ugc.trill,3241
+2025-12-17 04:16:34,System launcher,2902
+2025-12-17 04:16:34,com.android.chrome,2100
+2025-12-17 04:16:34,com.instagram.android,1742
+2025-12-17 04:16:34,com.facebook.katana,1568
+2025-12-17 04:16:34,com.twitter.android,751
+2025-12-17 04:16:34,com.openai.chatgpt,737
+2025-12-17 04:16:34,com.mobile.legends,690
+2025-12-17 04:31:35,com.google.android.youtube,10120
+2025-12-17 04:31:35,com.whatsapp,5534
+2025-12-17 04:31:35,com.ss.android.ugc.trill,3241
+2025-12-17 04:31:35,System launcher,2902
+2025-12-17 04:31:35,com.android.chrome,2100
+2025-12-17 04:31:35,com.instagram.android,1742
+2025-12-17 04:31:35,com.facebook.katana,1568
+2025-12-17 04:31:35,com.twitter.android,751
+2025-12-17 04:31:35,com.openai.chatgpt,737
+2025-12-17 04:31:35,com.mobile.legends,690
+2025-12-17 04:46:35,com.google.android.youtube,10120
+2025-12-17 04:46:35,com.whatsapp,5534
+2025-12-17 04:46:35,com.ss.android.ugc.trill,3241
+2025-12-17 04:46:35,System launcher,2902
+2025-12-17 04:46:35,com.android.chrome,2100
+2025-12-17 04:46:35,com.instagram.android,1742
+2025-12-17 04:46:35,com.facebook.katana,1568
+2025-12-17 04:46:35,com.twitter.android,751
+2025-12-17 04:46:35,com.openai.chatgpt,737
+2025-12-17 04:46:35,com.mobile.legends,690
+2025-12-17 05:01:35,com.google.android.youtube,10120
+2025-12-17 05:01:35,com.whatsapp,5534
+2025-12-17 05:01:35,com.ss.android.ugc.trill,3241
+2025-12-17 05:01:35,System launcher,2902
+2025-12-17 05:01:35,com.android.chrome,2100
+2025-12-17 05:01:35,com.instagram.android,1742
+2025-12-17 05:01:35,com.facebook.katana,1568
+2025-12-17 05:01:35,com.twitter.android,751
+2025-12-17 05:01:35,com.openai.chatgpt,737
+2025-12-17 05:01:35,com.mobile.legends,690
+2025-12-17 05:16:36,com.google.android.youtube,10120
+2025-12-17 05:16:36,com.whatsapp,5534
+2025-12-17 05:16:36,com.ss.android.ugc.trill,3241
+2025-12-17 05:16:36,System launcher,2902
+2025-12-17 05:16:36,com.android.chrome,2100
+2025-12-17 05:16:36,com.instagram.android,1742
+2025-12-17 05:16:36,com.facebook.katana,1568
+2025-12-17 05:16:36,com.twitter.android,751
+2025-12-17 05:16:36,com.openai.chatgpt,737
+2025-12-17 05:16:36,com.mobile.legends,690
+2025-12-17 05:31:36,com.google.android.youtube,10120
+2025-12-17 05:31:36,com.whatsapp,5534
+2025-12-17 05:31:36,com.ss.android.ugc.trill,3241
+2025-12-17 05:31:36,System launcher,2902
+2025-12-17 05:31:36,com.android.chrome,2100
+2025-12-17 05:31:36,com.instagram.android,1742
+2025-12-17 05:31:36,com.facebook.katana,1568
+2025-12-17 05:31:36,com.twitter.android,751
+2025-12-17 05:31:36,com.openai.chatgpt,737
+2025-12-17 05:31:36,com.mobile.legends,690
+2025-12-17 05:46:37,com.google.android.youtube,10120
+2025-12-17 05:46:37,com.whatsapp,5534
+2025-12-17 05:46:37,com.ss.android.ugc.trill,3241
+2025-12-17 05:46:37,System launcher,2902
+2025-12-17 05:46:37,com.android.chrome,2100
+2025-12-17 05:46:37,com.instagram.android,1742
+2025-12-17 05:46:37,com.facebook.katana,1568
+2025-12-17 05:46:37,com.twitter.android,751
+2025-12-17 05:46:37,com.openai.chatgpt,737
+2025-12-17 05:46:37,com.mobile.legends,690
+2025-12-17 06:01:37,com.google.android.youtube,10120
+2025-12-17 06:01:37,com.whatsapp,5534
+2025-12-17 06:01:37,com.ss.android.ugc.trill,3241
+2025-12-17 06:01:37,System launcher,2902
+2025-12-17 06:01:37,com.android.chrome,2100
+2025-12-17 06:01:37,com.instagram.android,1742
+2025-12-17 06:01:37,com.facebook.katana,1568
+2025-12-17 06:01:37,com.twitter.android,751
+2025-12-17 06:01:37,com.openai.chatgpt,737
+2025-12-17 06:01:37,com.mobile.legends,690
+2025-12-17 06:16:37,com.google.android.youtube,10120
+2025-12-17 06:16:37,com.whatsapp,5534
+2025-12-17 06:16:37,com.ss.android.ugc.trill,3241
+2025-12-17 06:16:37,System launcher,2902
+2025-12-17 06:16:37,com.android.chrome,2100
+2025-12-17 06:16:37,com.instagram.android,1742
+2025-12-17 06:16:37,com.facebook.katana,1568
+2025-12-17 06:16:37,com.twitter.android,751
+2025-12-17 06:16:37,com.openai.chatgpt,737
+2025-12-17 06:16:37,com.mobile.legends,690
+2025-12-17 06:31:38,com.google.android.youtube,10120
+2025-12-17 06:31:38,com.whatsapp,5534
+2025-12-17 06:31:38,com.ss.android.ugc.trill,3241
+2025-12-17 06:31:38,System launcher,2902
+2025-12-17 06:31:38,com.android.chrome,2100
+2025-12-17 06:31:38,com.instagram.android,1742
+2025-12-17 06:31:38,com.facebook.katana,1568
+2025-12-17 06:31:38,com.twitter.android,751
+2025-12-17 06:31:38,com.openai.chatgpt,737
+2025-12-17 06:31:38,com.mobile.legends,690
+2025-12-17 06:46:38,com.google.android.youtube,10120
+2025-12-17 06:46:38,com.whatsapp,5534
+2025-12-17 06:46:38,com.ss.android.ugc.trill,3241
+2025-12-17 06:46:38,System launcher,2902
+2025-12-17 06:46:38,com.android.chrome,2100
+2025-12-17 06:46:38,com.instagram.android,1742
+2025-12-17 06:46:38,com.facebook.katana,1568
+2025-12-17 06:46:38,com.twitter.android,751
+2025-12-17 06:46:38,com.openai.chatgpt,737
+2025-12-17 06:46:38,com.mobile.legends,690
+2025-12-17 07:01:38,com.google.android.youtube,10120
+2025-12-17 07:01:38,com.whatsapp,5534
+2025-12-17 07:01:38,com.ss.android.ugc.trill,3241
+2025-12-17 07:01:38,System launcher,2902
+2025-12-17 07:01:38,com.android.chrome,2100
+2025-12-17 07:01:38,com.instagram.android,1742
+2025-12-17 07:01:38,com.facebook.katana,1568
+2025-12-17 07:01:38,com.twitter.android,751
+2025-12-17 07:01:38,com.openai.chatgpt,737
+2025-12-17 07:01:38,com.mobile.legends,690
+2025-12-17 07:16:39,com.google.android.youtube,10120
+2025-12-17 07:16:39,com.whatsapp,5534
+2025-12-17 07:16:39,com.ss.android.ugc.trill,3241
+2025-12-17 07:16:39,System launcher,2902
+2025-12-17 07:16:39,com.android.chrome,2100
+2025-12-17 07:16:39,com.instagram.android,1742
+2025-12-17 07:16:39,com.facebook.katana,1568
+2025-12-17 07:16:39,com.twitter.android,751
+2025-12-17 07:16:39,com.openai.chatgpt,737
+2025-12-17 07:16:39,com.mobile.legends,690
+2025-12-17 07:31:39,com.google.android.youtube,10120
+2025-12-17 07:31:39,com.whatsapp,5534
+2025-12-17 07:31:39,com.ss.android.ugc.trill,3241
+2025-12-17 07:31:39,System launcher,2902
+2025-12-17 07:31:39,com.android.chrome,2100
+2025-12-17 07:31:39,com.instagram.android,1742
+2025-12-17 07:31:39,com.facebook.katana,1568
+2025-12-17 07:31:39,com.twitter.android,751
+2025-12-17 07:31:39,com.openai.chatgpt,737
+2025-12-17 07:31:39,com.mobile.legends,690
+2025-12-17 07:46:39,com.google.android.youtube,10120
+2025-12-17 07:46:39,com.whatsapp,5646
+2025-12-17 07:46:39,com.ss.android.ugc.trill,3576
+2025-12-17 07:46:39,System launcher,2913
+2025-12-17 07:46:39,com.android.chrome,2100
+2025-12-17 07:46:39,com.instagram.android,1746
+2025-12-17 07:46:39,com.facebook.katana,1568
+2025-12-17 07:46:39,com.twitter.android,751
+2025-12-17 07:46:39,com.openai.chatgpt,737
+2025-12-17 07:46:39,com.mobile.legends,690
+2025-12-17 08:01:40,com.google.android.youtube,10120
+2025-12-17 08:01:40,com.whatsapp,5646
+2025-12-17 08:01:40,com.ss.android.ugc.trill,4052
+2025-12-17 08:01:40,System launcher,2913
+2025-12-17 08:01:40,com.android.chrome,2100
+2025-12-17 08:01:40,com.instagram.android,1746
+2025-12-17 08:01:40,com.facebook.katana,1568
+2025-12-17 08:01:40,com.twitter.android,751
+2025-12-17 08:01:40,com.openai.chatgpt,737
+2025-12-17 08:01:40,com.mobile.legends,690
+2025-12-17 08:16:40,com.google.android.youtube,10120
+2025-12-17 08:16:40,com.whatsapp,5685
+2025-12-17 08:16:40,com.ss.android.ugc.trill,5322
+2025-12-17 08:16:40,System launcher,2915
+2025-12-17 08:16:40,com.android.chrome,2100
+2025-12-17 08:16:40,com.instagram.android,1746
+2025-12-17 08:16:40,com.facebook.katana,1568
+2025-12-17 08:16:40,com.twitter.android,751
+2025-12-17 08:16:40,com.openai.chatgpt,737
+2025-12-17 08:16:40,com.mobile.legends,690

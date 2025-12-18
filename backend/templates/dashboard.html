@@ -1,506 +1,713 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stress Detection Dashboard - Fuzzy Mamdani System</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <title>Stress Detection Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="dashboard-header">
-            <div class="header-content">
-                <h1>🧠 Stress Detection System</h1>
-                <p class="subtitle">Fuzzy Mamdani Inference System (81 Rules)</p>
-            </div>
-            <div class="status-indicator">
-                <div class="status-dot" id="statusDot"></div>
-                <span id="statusText">Connecting...</span>
-            </div>
-        </header>
-
-        <!-- Main Grid -->
-        <div class="dashboard-grid">
-            <!-- IoT Sensor Panel -->
-            <div class="card sensor-card">
-                <div class="card-header">
-                    <h2>🌡️ IoT Sensor Data</h2>
-                    <span class="update-time" id="lastUpdate">--:--:--</span>
-                </div>
-                <div class="sensor-grid">
-                    <div class="sensor-item">
-                        <div class="sensor-icon">🌡️</div>
-                        <div class="sensor-info">
-                            <span class="sensor-label">Temperature</span>
-                            <span class="sensor-value" id="tempValue">--</span>
-                            <span class="sensor-unit">°C</span>
-                        </div>
-                    </div>
-                    <div class="sensor-item">
-                        <div class="sensor-icon">💧</div>
-                        <div class="sensor-info">
-                            <span class="sensor-label">Humidity</span>
-                            <span class="sensor-value" id="humidValue">--</span>
-                            <span class="sensor-unit">%</span>
-                        </div>
-                    </div>
-                    <div class="sensor-item">
-                        <div class="sensor-icon">🌫️</div>
-                        <div class="sensor-info">
-                            <span class="sensor-label">Air Quality</span>
-                            <span class="sensor-value" id="aqValue">--</span>
-                            <span class="sensor-unit">PM2.5</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Stress Analysis Panel -->
-            <div class="card analysis-card">
-                <div class="card-header">
-                    <h2>📊 Stress Analysis</h2>
-                    <span class="device-badge" id="deviceBadge">No Device</span>
-                </div>
-                <div class="stress-display">
-                    <div class="stress-gauge">
-                        <canvas id="gaugeCanvas" width="200" height="200"></canvas>
-                        <div class="stress-score" id="stressScore">0</div>
-                    </div>
-                    <div class="stress-info">
-                        <div class="category-badge" id="categoryBadge">-</div>
-                        <p class="stress-message" id="stressMessage">Waiting for data...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fuzzy Visualization - Input Membership Functions -->
-            <div class="card fuzzy-card full-width">
-                <div class="card-header">
-                    <h2>📈 Fuzzy Membership Functions - Input Variables</h2>
-                    <span class="info-badge">Fuzzification Stage</span>
-                </div>
-                <div class="fuzzy-grid">
-                    <div class="fuzzy-chart-container">
-                        <h3>Screen Time (hours)</h3>
-                        <canvas id="screenChart" width="300" height="200"></canvas>
-                        <div class="membership-values" id="screenMembership"></div>
-                    </div>
-                    <div class="fuzzy-chart-container">
-                        <h3>Temperature (°C)</h3>
-                        <canvas id="tempChart" width="300" height="200"></canvas>
-                        <div class="membership-values" id="tempMembership"></div>
-                    </div>
-                    <div class="fuzzy-chart-container">
-                        <h3>Humidity (%)</h3>
-                        <canvas id="humidChart" width="300" height="200"></canvas>
-                        <div class="membership-values" id="humidMembership"></div>
-                    </div>
-                    <div class="fuzzy-chart-container">
-                        <h3>Air Quality (PM2.5)</h3>
-                        <canvas id="aqChart" width="300" height="200"></canvas>
-                        <div class="membership-values" id="aqMembership"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Inference Results -->
-            <div class="card inference-card full-width">
-                <div class="card-header">
-                    <h2>⚙️ Fuzzy Inference Results</h2>
-                    <span class="info-badge">81 Rules System</span>
-                </div>
-                <div class="inference-content">
-                    <div class="rules-summary">
-                        <div class="rule-stat">
-                            <span class="stat-number" id="activeRules">0</span>
-                            <span class="stat-label">Active Rules</span>
-                        </div>
-                        <div class="rule-stat">
-                            <span class="stat-number">81</span>
-                            <span class="stat-label">Total Rules</span>
-                        </div>
-                    </div>
-                    <div class="rules-list" id="rulesList">
-                        <p class="waiting-text">No inference data yet...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Output Defuzzification -->
-            <div class="card output-card full-width">
-                <div class="card-header">
-                    <h2>📉 Output Defuzzification</h2>
-                    <span class="info-badge">Centroid Method</span>
-                </div>
-                <div class="output-chart-container">
-                    <canvas id="outputChart" width="800" height="250"></canvas>
-                </div>
-            </div>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="header-title">Stress Detection System</h1>
+            <p class="header-subtitle">Real-time Monitoring & Fuzzy Logic Analysis</p>
         </div>
+        <div class="status-indicator" id="statusIndicator">
+            <span class="status-dot"></span>
+            <span class="status-text">Initializing...</span>
+        </div>
+    </header>
 
-        <!-- Footer -->
-        <footer class="dashboard-footer">
-            <p>Fuzzy Mamdani System • 4 Input Variables • 81 Rules • Real-time Processing</p>
-        </footer>
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- IoT Sensor Data Section -->
+        <section class="card sensor-grid">
+            <div class="sensor-card">
+                <div class="sensor-icon">🌡️</div>
+                <div class="sensor-content">
+                    <span class="sensor-label">Temperature</span>
+                    <span class="sensor-value" id="tempValue">--</span>
+                    <span class="sensor-unit">°C</span>
+                </div>
+            </div>
+            
+            <div class="sensor-card">
+                <div class="sensor-icon">💧</div>
+                <div class="sensor-content">
+                    <span class="sensor-label">Humidity</span>
+                    <span class="sensor-value" id="humidValue">--</span>
+                    <span class="sensor-unit">%</span>
+                </div>
+            </div>
+            
+            <div class="sensor-card">
+                <div class="sensor-icon">🌫️</div>
+                <div class="sensor-content">
+                    <span class="sensor-label">Air Quality</span>
+                    <span class="sensor-value" id="aqValue">--</span>
+                    <span class="sensor-unit">PM2.5</span>
+                </div>
+            </div>
+            
+            <div class="sensor-card">
+                <div class="sensor-icon">📱</div>
+                <div class="sensor-content">
+                    <span class="sensor-label">Screen Time</span>
+                    <span class="sensor-value" id="screenValue">--</span>
+                    <span class="sensor-unit">hours</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stress Analysis Section -->
+        <section class="card stress-analysis">
+            <h2 class="section-title">Stress Analysis Result</h2>
+            <div class="analysis-content">
+                <div class="stress-score-container">
+                    <div class="stress-circle" id="stressCircle">
+                        <svg viewBox="0 0 120 120" class="stress-svg">
+                            <circle class="stress-bg" cx="60" cy="60" r="54"></circle>
+                            <circle class="stress-progress" id="stressProgress" cx="60" cy="60" r="54"></circle>
+                        </svg>
+                        <div class="stress-score-text">
+                            <span class="stress-value" id="stressScore">0</span>
+                            <span class="stress-label">Stress Level</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analysis-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Device ID:</span>
+                        <span class="detail-value" id="deviceId">Waiting...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value category-badge" id="stressCategory">-</span>
+                    </div>
+                    <div class="detail-row message-row">
+                        <span class="detail-label">Recommendation:</span>
+                        <span class="detail-value" id="stressMessage">System ready</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Last Update:</span>
+                        <span class="detail-value" id="lastUpdate">--:--:--</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fuzzy Logic Explanation -->
+        <section class="card fuzzy-explanation">
+            <h2 class="section-title">Fuzzy Mamdani Process</h2>
+            <div class="explanation-intro">
+                Sistem menggunakan logika fuzzy Mamdani dengan 4 tahap utama untuk mengubah data sensor menjadi tingkat stress yang terukur dan dapat dipahami.
+            </div>
+
+            <div class="fuzzy-steps">
+                <!-- Step 1: Fuzzification -->
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Fuzzification</h3>
+                        <p class="step-desc">
+                            Mengubah nilai sensor pasti (crisp) menjadi derajat keanggotaan fuzzy. Contoh: suhu 28°C = 70% "hot" + 30% "normal". 
+                            Menggunakan fungsi trapesium dengan 4 parameter [a,b,c,d] yang menentukan bentuk kurva keanggotaan.
+                        </p>
+                        <div class="formula-interactive" onclick="toggleFormula('formula1')">
+                            <span class="formula-icon">ƒ</span>
+                            <span class="formula-text">Klik untuk lihat rumus trapesium</span>
+                        </div>
+                        <div class="formula-detail" id="formula1" style="display:none;">
+                            μ(x) = 0 jika x≤a atau x≥d | μ(x)=(x-a)/(b-a) jika a&lt;x&lt;b | μ(x)=1 jika b≤x≤c | μ(x)=(d-x)/(d-c) jika c&lt;x&lt;d
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Inference -->
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Rule-Based Inference</h3>
+                        <p class="step-desc">
+                            Menerapkan 81 aturan IF-THEN yang menggabungkan 4 input (3×3×3×3 kombinasi). Setiap aturan dihitung kekuatannya 
+                            menggunakan operator MIN - mengambil nilai terkecil dari semua kondisi antecedent.
+                        </p>
+                        <div class="formula-interactive" onclick="toggleFormula('formula2')">
+                            <span class="formula-icon">ƒ</span>
+                            <span class="formula-text">Klik untuk lihat rumus inference</span>
+                        </div>
+                        <div class="formula-detail" id="formula2" style="display:none;">
+                            α = min(μ_screen, μ_temp, μ_humid, μ_aq) → Kekuatan aktivasi setiap aturan
+                        </div>
+                        <button class="rules-toggle" onclick="toggleRules()">
+                            <span id="rulesButtonText">▼ Lihat Aturan</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 81 Rules Detail (Hidden) -->
+            <div class="rules-detail" id="rulesDetail" style="display: none;">
+                <h3 class="rules-title">81 Fuzzy Rules</h3>
+                <div class="rules-grid">
+                    <div class="rule-category">
+                        <h4 class="category-title">Screen Time: LOW (0-4h) - 27 Rules</h4>
+                        <div class="rules-list">
+                            <div class="rule-item">R1: LOW+cold+low+good → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R2: LOW+cold+low+moderate → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R3: LOW+cold+low+poor → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R4: LOW+cold+medium+good → <span class="out-verylow">VeryLow</span></div>
+                            <div class="rule-item">R5: LOW+cold+medium+moderate → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R6: LOW+cold+medium+poor → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R7: LOW+cold+high+good → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R8: LOW+cold+high+moderate → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R9: LOW+cold+high+poor → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R10: LOW+normal+low+good → <span class="out-verylow">VeryLow</span></div>
+                            <div class="rule-item">R11: LOW+normal+low+moderate → <span class="out-verylow">VeryLow</span></div>
+                            <div class="rule-item">R12: LOW+normal+low+poor → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R13: LOW+normal+medium+good → <span class="out-verylow">VeryLow</span></div>
+                            <div class="rule-item">R14: LOW+normal+medium+moderate → <span class="out-verylow">VeryLow</span></div>
+                            <div class="rule-item">R15: LOW+normal+medium+poor → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R16: LOW+normal+high+good → <span class="out-verylow">VeryLow</span></div>
+                            <div class="rule-item">R17: LOW+normal+high+moderate → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R18: LOW+normal+high+poor → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R19: LOW+hot+low+good → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R20: LOW+hot+low+moderate → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R21: LOW+hot+low+poor → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R22: LOW+hot+medium+good → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R23: LOW+hot+medium+moderate → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R24: LOW+hot+medium+poor → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R25: LOW+hot+high+good → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R26: LOW+hot+high+moderate → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R27: LOW+hot+high+poor → <span class="out-medium">Medium</span></div>
+                        </div>
+                    </div>
+
+                    <div class="rule-category">
+                        <h4 class="category-title">Screen Time: MEDIUM (5-9h) - 27 Rules</h4>
+                        <div class="rules-list">
+                            <div class="rule-item">R28: MED+cold+low+good → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R29: MED+cold+low+moderate → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R30: MED+cold+low+poor → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R31: MED+cold+medium+good → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R32: MED+cold+medium+moderate → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R33: MED+cold+medium+poor → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R34: MED+cold+high+good → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R35: MED+cold+high+moderate → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R36: MED+cold+high+poor → <span class="out-high">High</span></div>
+                            <div class="rule-item">R37: MED+normal+low+good → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R38: MED+normal+low+moderate → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R39: MED+normal+low+poor → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R40: MED+normal+medium+good → <span class="out-low">Low</span></div>
+                            <div class="rule-item">R41: MED+normal+medium+moderate → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R42: MED+normal+medium+poor → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R43: MED+normal+high+good → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R44: MED+normal+high+moderate → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R45: MED+normal+high+poor → <span class="out-high">High</span></div>
+                            <div class="rule-item">R46: MED+hot+low+good → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R47: MED+hot+low+moderate → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R48: MED+hot+low+poor → <span class="out-high">High</span></div>
+                            <div class="rule-item">R49: MED+hot+medium+good → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R50: MED+hot+medium+moderate → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R51: MED+hot+medium+poor → <span class="out-high">High</span></div>
+                            <div class="rule-item">R52: MED+hot+high+good → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R53: MED+hot+high+moderate → <span class="out-high">High</span></div>
+                            <div class="rule-item">R54: MED+hot+high+poor → <span class="out-high">High</span></div>
+                        </div>
+                    </div>
+
+                    <div class="rule-category">
+                        <h4 class="category-title">Screen Time: HIGH (10-24h) - 27 Rules</h4>
+                        <div class="rules-list">
+                            <div class="rule-item">R55: HIGH+cold+low+good → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R56: HIGH+cold+low+moderate → <span class="out-high">High</span></div>
+                            <div class="rule-item">R57: HIGH+cold+low+poor → <span class="out-high">High</span></div>
+                            <div class="rule-item">R58: HIGH+cold+medium+good → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R59: HIGH+cold+medium+moderate → <span class="out-high">High</span></div>
+                            <div class="rule-item">R60: HIGH+cold+medium+poor → <span class="out-high">High</span></div>
+                            <div class="rule-item">R61: HIGH+cold+high+good → <span class="out-high">High</span></div>
+                            <div class="rule-item">R62: HIGH+cold+high+moderate → <span class="out-high">High</span></div>
+                            <div class="rule-item">R63: HIGH+cold+high+poor → <span class="out-veryhigh">VeryHigh</span></div>
+                            <div class="rule-item">R64: HIGH+normal+low+good → <span class="out-medium">Medium</span></div>
+                            <div class="rule-item">R65: HIGH+normal+low+moderate → <span class="out-high">High</span></div>
+                            <div class="rule-item">R66: HIGH+normal+low+poor → <span class="out-high">High</span></div>
+                            <div class="rule-item">R67: HIGH+normal+medium+good → <span class="out-high">High</span></div>
+                            <div class="rule-item">R68: HIGH+normal+medium+moderate → <span class="out-high">High</span></div>
+                            <div class="rule-item">R69: HIGH+normal+medium+poor → <span class="out-veryhigh">VeryHigh</span></div>
+                            <div class="rule-item">R70: HIGH+normal+high+good → <span class="out-high">High</span></div>
+                            <div class="rule-item">R71: HIGH+normal+high+moderate → <span class="out-high">High</span></div>
+                            <div class="rule-item">R72: HIGH+normal+high+poor → <span class="out-veryhigh">VeryHigh</span></div>
+                            <div class="rule-item">R73: HIGH+hot+low+good → <span class="out-high">High</span></div>
+                            <div class="rule-item">R74: HIGH+hot+low+moderate → <span class="out-high">High</span></div>
+                            <div class="rule-item">R75: HIGH+hot+low+poor → <span class="out-veryhigh">VeryHigh</span></div>
+                            <div class="rule-item">R76: HIGH+hot+medium+good → <span class="out-high">High</span></div>
+                            <div class="rule-item">R77: HIGH+hot+medium+moderate → <span class="out-veryhigh">VeryHigh</span></div>
+                            <div class="rule-item">R78: HIGH+hot+medium+poor → <span class="out-veryhigh">VeryHigh</span></div>
+                            <div class="rule-item">R79: HIGH+hot+high+good → <span class="out-high">High</span></div>
+                            <div class="rule-item">R80: HIGH+hot+high+moderate → <span class="out-veryhigh">VeryHigh</span></div>
+                            <div class="rule-item">R81: HIGH+hot+high+poor → <span class="out-veryhigh">VeryHigh</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continue with Step 3 and 4 -->
+            <div class="fuzzy-steps">
+                <!-- Step 3: Aggregation -->
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Aggregation</h3>
+                        <p class="step-desc">
+                            Menggabungkan semua output dari aturan yang aktif menjadi satu distribusi fuzzy. Setiap aturan yang memiliki kekuatan 
+                            aktivasi (α > 0) akan "memotong" fungsi keanggotaan output pada ketinggian α, lalu semua potongan ini digabung dengan operator MAX.
+                        </p>
+                        <div class="formula-interactive" onclick="toggleFormula('formula3')">
+                            <span class="formula-icon">ƒ</span>
+                            <span class="formula-text">Klik untuk lihat rumus aggregation</span>
+                        </div>
+                        <div class="formula-detail" id="formula3" style="display:none;">
+                            μ_output(x) = max(min(α₁, μ_consequent₁(x)), min(α₂, μ_consequent₂(x)), ...) untuk semua aturan aktif
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Defuzzification -->
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Defuzzification</h3>
+                        <p class="step-desc">
+                            Mengubah distribusi fuzzy hasil aggregation menjadi nilai crisp (0-100) menggunakan metode centroid - 
+                            menghitung titik pusat gravitasi dari area di bawah kurva output. Nilai ini lalu dikategorikan menjadi 5 level stress.
+                        </p>
+                        <div class="formula-interactive" onclick="toggleFormula('formula4')">
+                            <span class="formula-icon">ƒ</span>
+                            <span class="formula-text">Klik untuk lihat rumus centroid</span>
+                        </div>
+                        <div class="formula-detail" id="formula4" style="display:none;">
+                            Stress = Σ(xᵢ × μ_output(xᵢ)) / Σμ_output(xᵢ) → Center of Gravity dari distribusi output
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Output Visualization -->
+        <section class="card output-visualization" id="outputVis" style="display:none;">
+            <h2 class="section-title">Real-time Output Distribution</h2>
+            <div class="output-content">
+                <div class="output-chart-container">
+                    <canvas id="outputChart"></canvas>
+                </div>
+                <div class="output-info">
+                    <div class="info-item">
+                        <span class="info-label">Centroid Result:</span>
+                        <span class="info-value" id="centroidValue">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Active Rules:</span>
+                        <span class="info-value" id="activeRules">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Dominant Category:</span>
+                        <span class="info-value" id="dominantCat">--</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Membership Functions Visualization -->
+        <section class="card">
+            <h2 class="section-title">Input Membership Functions</h2>
+            <div class="charts-grid">
+                
+                <div class="chart-container">
+                    <h3 class="chart-title">Screen Time (hours)</h3>
+                    <canvas id="chartScreen"></canvas>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(100, 255, 150, 0.7)"></span> Low (0-4h)</span>
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(255, 200, 100, 0.7)"></span> Medium (5-9h)</span>
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(255, 100, 100, 0.7)"></span> High (10-24h)</span>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3 class="chart-title">Temperature (°C)</h3>
+                    <canvas id="chartTemp"></canvas>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(100, 255, 150, 0.7)"></span> Cold (15-22°C)</span>
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(255, 200, 100, 0.7)"></span> Normal (20-28°C)</span>
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(255, 100, 100, 0.7)"></span> Hot (26-35°C)</span>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3 class="chart-title">Humidity (%)</h3>
+                    <canvas id="chartHumid"></canvas>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(100, 255, 150, 0.7)"></span> Low (30-50%)</span>
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(255, 200, 100, 0.7)"></span> Medium (45-75%)</span>
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(255, 100, 100, 0.7)"></span> High (70-90%)</span>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3 class="chart-title">Air Quality (PM2.5)</h3>
+                    <canvas id="chartAQ"></canvas>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(100, 255, 150, 0.7)"></span> Good (0-1.5)</span>
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(255, 200, 100, 0.7)"></span> Moderate (1-3.5)</span>
+                        <span class="legend-item"><span class="legend-color" style="background: rgba(255, 100, 100, 0.7)"></span> Poor (3-5)</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
     </div>
 
+    <footer class="footer">
+        <p>&copy; 2025 Stress Detection System | Powered by Fuzzy Mamdani Logic</p>
+    </footer>
+
     <script>
-        // Configuration
-        const API_URL = '/api/dashboard_data';
-        const REFRESH_INTERVAL = 2000; // 2 seconds
+        // Global variables
+        let charts = {};
+        let outputChart = null;
+        let currentData = { screen: 0, temp: 25, humid: 60, aq: 0.25, stressValue: 0 };
+        let isFirstLoad = true;
 
-        // Canvas contexts
-        const canvases = {
-            screen: document.getElementById('screenChart').getContext('2d'),
-            temp: document.getElementById('tempChart').getContext('2d'),
-            humid: document.getElementById('humidChart').getContext('2d'),
-            aq: document.getElementById('aqChart').getContext('2d'),
-            output: document.getElementById('outputChart').getContext('2d'),
-            gauge: document.getElementById('gaugeCanvas').getContext('2d')
-        };
-
-        // Membership function definitions (from fuzzy_logic.py)
-        const MF = {
-            screen: {
-                low: [0, 0, 2, 4],
-                medium: [3, 5, 7, 9],
-                high: [8, 12, 24, 24]
-            },
-            temp: {
-                cold: [15, 15, 18, 22],
-                normal: [20, 24, 26, 28],
-                hot: [26, 30, 35, 35]
-            },
-            humid: {
-                low: [30, 30, 40, 50],
-                medium: [45, 55, 65, 75],
-                high: [70, 80, 90, 90]
-            },
-            aq: {
-                good: [0, 0, 0.5, 1.5],
-                moderate: [1.0, 2.0, 3.0, 3.5],
-                poor: [3.0, 4.0, 5.0, 5.0]
-            },
-            stress: {
-                very_low: [0, 0, 10, 25],
-                low: [15, 25, 35, 45],
-                medium: [35, 45, 55, 65],
-                high: [55, 65, 75, 85],
-                very_high: [75, 85, 100, 100]
-            }
-        };
-
-        const COLORS = {
-            screen: { low: '#4CAF50', medium: '#FF9800', high: '#F44336' },
-            temp: { cold: '#2196F3', normal: '#4CAF50', hot: '#F44336' },
-            humid: { low: '#FFC107', medium: '#2196F3', high: '#3F51B5' },
-            aq: { good: '#4CAF50', moderate: '#FF9800', poor: '#F44336' },
-            stress: { very_low: '#4CAF50', low: '#8BC34A', medium: '#FF9800', high: '#FF5722', very_high: '#D32F2F' }
-        };
-
-        // Draw trapezoid membership function
-        function drawTrapezoid(ctx, params, color, range, currentValue = null) {
-            const [a, b, c, d] = params;
-            const [min, max] = range;
-            const width = ctx.canvas.width;
-            const height = ctx.canvas.height;
-            const padding = 40;
-            const chartWidth = width - 2 * padding;
-            const chartHeight = height - 60;
-
-            // Convert value to pixel position
-            const toX = (val) => padding + ((val - min) / (max - min)) * chartWidth;
-            const toY = (membership) => height - padding - membership * chartHeight;
-
-            // Draw trapezoid
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(toX(a), toY(0));
-            ctx.lineTo(toX(b), toY(1));
-            ctx.lineTo(toX(c), toY(1));
-            ctx.lineTo(toX(d), toY(0));
-            ctx.stroke();
-
-            // Fill area
-            ctx.fillStyle = color + '20';
-            ctx.fill();
-
-            // Draw current value line
-            if (currentValue !== null && currentValue >= min && currentValue <= max) {
-                ctx.strokeStyle = '#000';
-                ctx.lineWidth = 2;
-                ctx.setLineDash([5, 5]);
-                ctx.beginPath();
-                ctx.moveTo(toX(currentValue), height - padding);
-                ctx.lineTo(toX(currentValue), padding);
-                ctx.stroke();
-                ctx.setLineDash([]);
+        // Toggle formula visibility
+        function toggleFormula(id) {
+            const elem = document.getElementById(id);
+            if (elem) {
+                elem.style.display = elem.style.display === 'none' ? 'block' : 'none';
             }
         }
 
-        // Draw axes and labels
-        function drawAxes(ctx, range, unit) {
-            const width = ctx.canvas.width;
-            const height = ctx.canvas.height;
-            const padding = 40;
-
-            ctx.strokeStyle = '#333';
-            ctx.lineWidth = 1;
-            
-            // X-axis
-            ctx.beginPath();
-            ctx.moveTo(padding, height - padding);
-            ctx.lineTo(width - padding, height - padding);
-            ctx.stroke();
-
-            // Y-axis
-            ctx.beginPath();
-            ctx.moveTo(padding, height - padding);
-            ctx.lineTo(padding, padding);
-            ctx.stroke();
-
-            // Labels
-            ctx.fillStyle = '#666';
-            ctx.font = '12px Arial';
-            ctx.textAlign = 'center';
-            
-            // X-axis labels
-            const [min, max] = range;
-            for (let i = 0; i <= 4; i++) {
-                const val = min + (max - min) * (i / 4);
-                const x = padding + (width - 2 * padding) * (i / 4);
-                ctx.fillText(val.toFixed(1), x, height - padding + 20);
-            }
-
-            // Y-axis label
-            ctx.save();
-            ctx.translate(15, height / 2);
-            ctx.rotate(-Math.PI / 2);
-            ctx.textAlign = 'center';
-            ctx.fillText('Membership', 0, 0);
-            ctx.restore();
-
-            // Unit label
-            ctx.fillText(unit, width / 2, height - 5);
-        }
-
-        // Draw membership function chart
-        function drawMembershipChart(type, currentValue) {
-            const ctx = canvases[type];
-            const mfs = MF[type];
-            const colors = COLORS[type];
-            
-            let range;
-            let unit;
-            
-            if (type === 'screen') {
-                range = [0, 24];
-                unit = 'Hours';
-            } else if (type === 'temp') {
-                range = [15, 35];
-                unit = '°C';
-            } else if (type === 'humid') {
-                range = [30, 90];
-                unit = '%';
-            } else if (type === 'aq') {
-                range = [0, 5];
-                unit = 'PM2.5';
-            }
-
-            // Clear canvas
-            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-            // Draw axes
-            drawAxes(ctx, range, unit);
-
-            // Draw each membership function
-            for (const [label, params] of Object.entries(mfs)) {
-                drawTrapezoid(ctx, params, colors[label], range, currentValue);
-                
-                // Label
-                const midX = (params[1] + params[2]) / 2;
-                const x = 40 + ((midX - range[0]) / (range[1] - range[0])) * (ctx.canvas.width - 80);
-                ctx.fillStyle = colors[label];
-                ctx.font = 'bold 11px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(label.toUpperCase(), x, 25);
-            }
-        }
-
-        // Calculate trapezoid membership
-        function trapezoidMembership(x, params) {
-            const [a, b, c, d] = params;
-            
-            if (x <= a || x >= d) return 0;
-            if (a < x && x <= b) return (b - a) !== 0 ? (x - a) / (b - a) : 1;
-            if (b < x && x < c) return 1;
-            if (c <= x && x < d) return (d - c) !== 0 ? (d - x) / (d - c) : 1;
-            return 0;
-        }
-
-        // Draw output defuzzification chart
-        function drawOutputChart(stressValue) {
-            const ctx = canvases.output;
-            const width = ctx.canvas.width;
-            const height = ctx.canvas.height;
-            const padding = 50;
-
-            ctx.clearRect(0, 0, width, height);
-
-            // Draw axes
-            drawAxes(ctx, [0, 100], 'Stress Level');
-
-            // Draw membership functions
-            for (const [label, params] of Object.entries(MF.stress)) {
-                drawTrapezoid(ctx, params, COLORS.stress[label], [0, 100], stressValue);
-                
-                // Label
-                const midX = (params[1] + params[2]) / 2;
-                const x = padding + (midX / 100) * (width - 2 * padding);
-                ctx.fillStyle = COLORS.stress[label];
-                ctx.font = 'bold 12px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(label.replace('_', ' ').toUpperCase(), x, 25);
-            }
-
-            // Draw centroid marker
-            if (stressValue > 0) {
-                const x = padding + (stressValue / 100) * (width - 2 * padding);
-                ctx.fillStyle = '#000';
-                ctx.beginPath();
-                ctx.arc(x, height - padding, 6, 0, 2 * Math.PI);
-                ctx.fill();
-                
-                ctx.font = 'bold 14px Arial';
-                ctx.fillText(`Centroid: ${stressValue.toFixed(1)}`, x, height - padding - 15);
-            }
-        }
-
-        // Draw gauge
-        function drawGauge(value) {
-            const ctx = canvases.gauge;
-            const centerX = 100;
-            const centerY = 100;
-            const radius = 80;
-
-            ctx.clearRect(0, 0, 200, 200);
-
-            // Background arc
-            ctx.lineWidth = 20;
-            ctx.strokeStyle = '#e0e0e0';
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, radius, 0.75 * Math.PI, 2.25 * Math.PI);
-            ctx.stroke();
-
-            // Colored arc based on value
-            const percentage = value / 100;
-            const endAngle = 0.75 * Math.PI + percentage * 1.5 * Math.PI;
-            
-            let color;
-            if (value < 20) color = '#4CAF50';
-            else if (value < 40) color = '#8BC34A';
-            else if (value < 60) color = '#FF9800';
-            else if (value < 80) color = '#FF5722';
-            else color = '#D32F2F';
-
-            ctx.strokeStyle = color;
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, radius, 0.75 * Math.PI, endAngle);
-            ctx.stroke();
-
-            // Center circle
-            ctx.fillStyle = '#fff';
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, radius - 25, 0, 2 * Math.PI);
-            ctx.fill();
-        }
-
-        // Update membership display
-        function updateMembershipDisplay(type, value) {
-            const mfs = MF[type];
-            const container = document.getElementById(`${type}Membership`);
-            
-            let html = '<div class="membership-chips">';
-            for (const [label, params] of Object.entries(mfs)) {
-                const membership = trapezoidMembership(value, params);
-                if (membership > 0) {
-                    html += `<span class="chip" style="background: ${COLORS[type][label]}20; color: ${COLORS[type][label]}">${label}: ${membership.toFixed(2)}</span>`;
+        // Toggle rules visibility
+        function toggleRules() {
+            const rulesDetail = document.getElementById('rulesDetail');
+            const buttonText = document.getElementById('rulesButtonText');
+            if (rulesDetail && buttonText) {
+                if (rulesDetail.style.display === 'none') {
+                    rulesDetail.style.display = 'block';
+                    buttonText.textContent = '▲ Sembunyikan';
+                    setTimeout(() => rulesDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+                } else {
+                    rulesDetail.style.display = 'none';
+                    buttonText.textContent = '▼ Lihat Aturan';
                 }
             }
-            html += '</div>';
-            container.innerHTML = html;
         }
 
-        // Fetch and update dashboard
-        async function updateDashboard() {
+        // Trapezoidal membership function
+        function trapmf(x, params) {
+            const [a, b, c, d] = params;
+            if (x <= a) return 0.0;
+            if (x >= d) return 0.0;
+            if (x >= b && x <= c) return 1.0;
+            if (x > a && x < b) return (x - a) / (b - a);
+            if (x > c && x < d) return (d - x) / (d - c);
+            return 0.0;
+        }
+
+        // Chart configurations - CONSISTENT COLORS (Green-Yellow-Red)
+        const chartConfig = {
+            screen: {
+                xValues: Array.from({length: 481}, (_, i) => (i * 0.05).toFixed(2) * 1),
+                params: [[0,0,2,4], [3,5,7,9], [8,12,24,24]],
+                colors: ['rgba(100,255,150,0.9)', 'rgba(255,200,100,0.9)', 'rgba(255,100,100,0.9)'],  // Green-Yellow-Red
+                labels: ['Low', 'Medium', 'High'],
+                ticks: [0, 24]
+            },
+            temp: {
+                xValues: Array.from({length: 401}, (_, i) => (15 + i * 0.05).toFixed(2) * 1),
+                params: [[15,15,18,22], [19,23,27,31], [28,31,35,35]],
+                colors: ['rgba(100,255,150,0.9)', 'rgba(255,200,100,0.9)', 'rgba(255,100,100,0.9)'],  // Green-Yellow-Red
+                labels: ['Cold', 'Normal', 'Hot'],
+                ticks: [15, 35]
+            },
+            humid: {
+                xValues: Array.from({length: 1201}, (_, i) => (30 + i * 0.05).toFixed(2) * 1),
+                params: [[30,30,40,50], [45,55,65,75], [70,80,90,90]],
+                colors: ['rgba(100,255,150,0.9)', 'rgba(255,200,100,0.9)', 'rgba(255,100,100,0.9)'],  // Green-Yellow-Red
+                labels: ['Low', 'Medium', 'High'],
+                ticks: [30, 90]
+            },
+            aq: {
+                xValues: Array.from({length: 201}, (_, i) => (i * 0.025).toFixed(3) * 1),
+                params: [[0,0,0.5,1.5], [1.0,2.0,3.0,4.0], [3.5,4.25,5.0,5.0]],
+                colors: ['rgba(100,255,150,0.9)', 'rgba(255,200,100,0.9)', 'rgba(255,100,100,0.9)'],  // Green-Yellow-Red
+                labels: ['Good', 'Moderate', 'Poor'],
+                ticks: [0, 5]
+            }
+        };
+
+        // Create membership function chart
+        function createChart(canvasId, config) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) {
+                console.error(`Canvas ${canvasId} not found`);
+                return null;
+            }
+
+            const datasets = config.params.map((p, i) => ({
+                label: config.labels[i],
+                data: config.xValues.map(x => trapmf(x, p)),
+                borderColor: config.colors[i],
+                backgroundColor: config.colors[i].replace('0.9', '0.2'),
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0
+            }));
+
+            return new Chart(canvas, {
+                type: 'line',
+                data: { labels: config.xValues, datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 2,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(20,20,30,0.95)',
+                            titleColor: '#e0e0e0',
+                            bodyColor: '#c0c0c0',
+                            padding: 12,
+                            callbacks: {
+                                label: c => c.dataset.label + ': ' + c.parsed.y.toFixed(3)
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: {
+                                color: '#888',
+                                font: { size: 11 },
+                                maxRotation: 0,
+                                autoSkip: false,
+                                callback: function(val, index) {
+                                    const value = parseFloat(this.getLabelForValue(val));
+                                    // Only show ticks that are in the config.ticks array
+                                    return config.ticks.some(t => Math.abs(t - value) < 0.01) ? value : '';
+                                }
+                            }
+                        },
+                        y: {
+                            min: 0, max: 1,
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { 
+                                color: '#888', 
+                                stepSize: 0.5,
+                                font: { size: 11 },
+                                callback: function(val) {
+                                    return [0, 0.5, 1.0].includes(val) ? val.toFixed(1) : '';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create output distribution chart
+        function createOutputChart() {
+            const canvas = document.getElementById('outputChart');
+            if (!canvas) {
+                console.error('Output chart canvas not found');
+                return null;
+            }
+
+            const xValues = Array.from({length: 1001}, (_, i) => i / 10);
+            const params = [[0,0,10,25], [15,25,35,45], [35,45,55,65], [55,65,75,85], [75,85,100,100]];
+            const colors = ['rgba(100,255,150,0.9)', 'rgba(163,230,53,0.9)', 'rgba(251,191,36,0.9)', 'rgba(251,146,60,0.9)', 'rgba(239,68,68,0.9)'];
+            const labels = ['VeryLow', 'Low', 'Medium', 'High', 'VeryHigh'];
+
+            const datasets = params.map((p, i) => ({
+                label: labels[i],
+                data: xValues.map(x => trapmf(x, p)),
+                borderColor: colors[i],
+                backgroundColor: colors[i].replace('0.9', '0.2'),
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0,
+                fill: true
+            }));
+
+            return new Chart(canvas, {
+                type: 'line',
+                data: { labels: xValues, datasets },
+                options: {
+                    responsive: true,
+                    aspectRatio: 2.5,
+                    plugins: {
+                        legend: { display: true, position: 'bottom' },
+                        tooltip: { enabled: true }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { 
+                                color: '#888',
+                                font: { size: 11 },
+                                maxRotation: 0,
+                                autoSkip: false,
+                                callback: function(val, index) {
+                                    const v = parseFloat(this.getLabelForValue(val));
+                                    // Only show 0, 50, 100
+                                    return [0, 50, 100].includes(Math.round(v)) ? Math.round(v) : '';
+                                }
+                            }
+                        },
+                        y: {
+                            min: 0, max: 1,
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { 
+                                color: '#888', 
+                                stepSize: 0.5,
+                                callback: function(val) {
+                                    return [0, 0.5, 1.0].includes(val) ? val.toFixed(1) : '';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update stress circle visualization
+        function updateStressCircle(value) {
+            const circle = document.getElementById('stressProgress');
+            if (!circle) return;
+
+            const circumference = 2 * Math.PI * 54;
+            const offset = circumference - (value / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+            
+            // Color based on stress level
+            let color;
+            if (value < 20) color = '#4ade80';
+            else if (value < 40) color = '#a3e635';
+            else if (value < 60) color = '#fbbf24';
+            else if (value < 80) color = '#fb923c';
+            else color = '#ef4444';
+            
+            circle.style.stroke = color;
+        }
+
+        // Fetch dashboard data from server
+        async function fetchData() {
             try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
-
-                // Update status
-                document.getElementById('statusDot').className = 'status-dot active';
-                document.getElementById('statusText').textContent = 'Connected';
-
-                // Update IoT data
-                document.getElementById('tempValue').textContent = data.iot.temp.toFixed(1);
-                document.getElementById('humidValue').textContent = data.iot.humid.toFixed(1);
-                document.getElementById('aqValue').textContent = data.iot.aq.toFixed(2);
-                document.getElementById('lastUpdate').textContent = data.iot.last_update;
-
+                const res = await fetch('/api/dashboard_data');
+                
+                if (!res.ok) {
+                    console.error('Server response not OK:', res.status);
+                    throw new Error(`HTTP ${res.status}`);
+                }
+                
+                const data = await res.json();
+                console.log('✅ Data received:', data);
+                
+                // Update sensor values
+                const tempEl = document.getElementById('tempValue');
+                const humidEl = document.getElementById('humidValue');
+                const aqEl = document.getElementById('aqValue');
+                const screenEl = document.getElementById('screenValue');
+                const updateEl = document.getElementById('lastUpdate');
+                
+                if (tempEl) tempEl.textContent = Number(data.iot.temp).toFixed(1);
+                if (humidEl) humidEl.textContent = Number(data.iot.humid).toFixed(1);
+                if (aqEl) aqEl.textContent = Number(data.iot.aq).toFixed(2);
+                if (screenEl) screenEl.textContent = Number(data.iot.screen_time).toFixed(1);
+                if (updateEl) updateEl.textContent = data.iot.last_update;
+                
                 // Update analysis
-                const stress = data.analysis.stress_score;
-                document.getElementById('deviceBadge').textContent = data.analysis.device_id;
-                document.getElementById('stressScore').textContent = stress.toFixed(0);
-                document.getElementById('categoryBadge').textContent = data.analysis.category;
-                document.getElementById('stressMessage').textContent = data.analysis.message;
+                const deviceEl = document.getElementById('deviceId');
+                const scoreEl = document.getElementById('stressScore');
+                const catEl = document.getElementById('stressCategory');
+                const msgEl = document.getElementById('stressMessage');
+                
+                if (deviceEl) deviceEl.textContent = data.analysis.device_id;
+                if (scoreEl) scoreEl.textContent = Math.round(Number(data.analysis.stress_score));
+                if (catEl) catEl.textContent = data.analysis.category;
+                if (msgEl) msgEl.textContent = data.analysis.message;
 
-                // Update category badge color
-                const badge = document.getElementById('categoryBadge');
-                badge.className = 'category-badge';
-                if (stress < 20) badge.classList.add('very-low');
-                else if (stress < 40) badge.classList.add('low');
-                else if (stress < 60) badge.classList.add('medium');
-                else if (stress < 80) badge.classList.add('high');
-                else badge.classList.add('very-high');
+                // Update stress circle
+                updateStressCircle(Number(data.analysis.stress_score));
 
-                // Draw charts (use dummy screen time for visualization)
-                const screenTime = stress * 24 / 100; // Approximate
-                drawMembershipChart('screen', screenTime);
-                drawMembershipChart('temp', data.iot.temp);
-                drawMembershipChart('humid', data.iot.humid);
-                drawMembershipChart('aq', data.iot.aq);
-                drawOutputChart(stress);
-                drawGauge(stress);
+                // Show output visualization if stress > 0
+                if (Number(data.analysis.stress_score) > 0) {
+                    const outputVis = document.getElementById('outputVis');
+                    if (outputVis) outputVis.style.display = 'block';
+                    
+                    const centroidEl = document.getElementById('centroidValue');
+                    const rulesEl = document.getElementById('activeRules');
+                    const domCatEl = document.getElementById('dominantCat');
+                    
+                    if (centroidEl) centroidEl.textContent = Number(data.analysis.stress_score).toFixed(2);
+                    if (rulesEl) rulesEl.textContent = '~12-18 rules';
+                    if (domCatEl) domCatEl.textContent = data.analysis.category;
+                }
 
-                // Update membership displays
-                updateMembershipDisplay('screen', screenTime);
-                updateMembershipDisplay('temp', data.iot.temp);
-                updateMembershipDisplay('humid', data.iot.humid);
-                updateMembershipDisplay('aq', data.iot.aq);
+                // Update status to connected
+                const statusEl = document.getElementById('statusIndicator');
+                if (statusEl) {
+                    statusEl.innerHTML = '<span class="status-dot active"></span><span class="status-text">Connected ✓</span>';
+                }
 
-                // Update rules (simulated for now)
-                document.getElementById('activeRules').textContent = Math.floor(Math.random() * 15) + 5;
+                // Store current data
+                currentData = {
+                    screen: Number(data.iot.screen_time),
+                    temp: Number(data.iot.temp),
+                    humid: Number(data.iot.humid),
+                    aq: Number(data.iot.aq),
+                    stressValue: Number(data.analysis.stress_score)
+                };
+
+                // Log successful connection on first load
+                if (isFirstLoad) {
+                    console.log('🎉 Dashboard successfully connected to server!');
+                    isFirstLoad = false;
+                }
 
             } catch (error) {
-                document.getElementById('statusDot').className = 'status-dot error';
-                document.getElementById('statusText').textContent = 'Disconnected';
-                console.error('Error fetching data:', error);
+                console.error('❌ Fetch Error:', error);
+                const statusEl = document.getElementById('statusIndicator');
+                if (statusEl) {
+                    statusEl.innerHTML = '<span class="status-dot error"></span><span class="status-text">Connection Error</span>';
+                }
             }
         }
 
-        // Initialize
-        updateDashboard();
-        setInterval(updateDashboard, REFRESH_INTERVAL);
-
-        // Initial chart draw
-        drawMembershipChart('screen', 0);
-        drawMembershipChart('temp', 25);
-        drawMembershipChart('humid', 60);
-        drawMembershipChart('aq', 1);
-        drawOutputChart(0);
-        drawGauge(0);
+        // Initialize dashboard
+        window.addEventListener('load', () => {
+            console.log('🚀 Initializing Dashboard...');
+            
+            // Create all charts
+            charts.screen = createChart('chartScreen', chartConfig.screen);
+            charts.temp = createChart('chartTemp', chartConfig.temp);
+            charts.humid = createChart('chartHumid', chartConfig.humid);
+            charts.aq = createChart('chartAQ', chartConfig.aq);
+            outputChart = createOutputChart();
+            
+            console.log('📊 Charts initialized');
+            
+            // Fetch initial data
+            fetchData();
+            
+            // Set up periodic updates (every 2 seconds)
+            setInterval(fetchData, 2000);
+            
+            console.log('✅ Dashboard ready! Fetching data every 2 seconds...');
+        });
     </script>
 </body>
 </html>

@@ -138,9 +138,9 @@ stress_sim = ctrl.ControlSystemSimulation(stress_ctrl)
 def calculate_stress(screentime, temperature, humidity, air_quality):
     """
     Menghitung tingkat stres berdasarkan input sensor.
-    Output disesuaikan dengan 5 kategori teman Anda.
+    Mengembalikan stress value, category, message, dan membership degrees.
     """
-    # Clamping input agar berada dalam batas semesta pembicaraan
+    # Clamping input
     screentime = float(np.clip(screentime, 0, 24))
     temperature = float(np.clip(temperature, 15, 35))
     humidity = float(np.clip(humidity, 30, 90))
@@ -154,11 +154,11 @@ def calculate_stress(screentime, temperature, humidity, air_quality):
         stress_sim.compute()
         
         value = float(stress_sim.output['stress'])
-    except Exception:
-        # Fallback jika terjadi kegagalan komputasi (misal: input di luar range MF)
+    except Exception as e:
+        print(f"[FUZZY ERROR] {e}")
         value = 50.0
 
-    # Kategorisasi Output (Mapping 5 tingkat stress)
+    # Kategorisasi Output
     if value < 20:
         category = "Very Low Stress"
         message = "Kondisi sangat baik! Tetap jaga pola hidup sehat."
@@ -175,12 +175,41 @@ def calculate_stress(screentime, temperature, humidity, air_quality):
         category = "Very High Stress"
         message = "PERINGATAN! Segera kurangi penggunaan HP dan perbaiki kondisi ruangan!"
 
+    # Hitung membership degrees untuk visualisasi
+    screen_mf = {
+        'low': float(fuzz.interp_membership(screen_universe, screen['low'].mf, screentime)),
+        'medium': float(fuzz.interp_membership(screen_universe, screen['medium'].mf, screentime)),
+        'high': float(fuzz.interp_membership(screen_universe, screen['high'].mf, screentime))
+    }
+    
+    temp_mf = {
+        'cold': float(fuzz.interp_membership(temp_universe, temp['cold'].mf, temperature)),
+        'normal': float(fuzz.interp_membership(temp_universe, temp['normal'].mf, temperature)),
+        'hot': float(fuzz.interp_membership(temp_universe, temp['hot'].mf, temperature))
+    }
+    
+    humid_mf = {
+        'low': float(fuzz.interp_membership(humid_universe, humid['low'].mf, humidity)),
+        'medium': float(fuzz.interp_membership(humid_universe, humid['medium'].mf, humidity)),
+        'high': float(fuzz.interp_membership(humid_universe, humid['high'].mf, humidity))
+    }
+    
+    aq_mf = {
+        'good': float(fuzz.interp_membership(aq_universe, airq['good'].mf, air_quality)),
+        'moderate': float(fuzz.interp_membership(aq_universe, airq['moderate'].mf, air_quality)),
+        'poor': float(fuzz.interp_membership(aq_universe, airq['poor'].mf, air_quality))
+    }
+
     return {
         "stress_value": round(value, 2),
         "category": category,
         "message": message,
         "fuzzy_details": {
-            "total_rules": len(rules)
+            "total_rules": len(rules),
+            "screen_membership": screen_mf,
+            "temp_membership": temp_mf,
+            "humid_membership": humid_mf,
+            "aq_membership": aq_mf
         }
     }
 
