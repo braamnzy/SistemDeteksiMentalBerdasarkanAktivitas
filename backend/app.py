@@ -167,6 +167,7 @@ def receive_usage():
         print(f"\n✅ [Android:{device_id}] Screen:{total_hours:.1f}h | Stress:{fuzzy_result['stress_value']:.0f} ({fuzzy_result['category']})")
         print(f"   Rules activated: {fuzzy_result['fuzzy_details']['total_rules']}")
         print(f"   IoT: T={LAST_IOT_DATA['temperature']}°C, H={LAST_IOT_DATA['humidity']}%, AQ={LAST_IOT_DATA['air_quality']}\n")
+        print(f"   Proximity activated: diff under 5 minute accepted \n")
 
         return jsonify({
             "status": "success",

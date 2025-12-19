@@ -1,0 +1,64 @@
+======================================================================
+CUSTOM TEST CASES - FUZZY LOGIC STRESS DETECTION
+======================================================================
+
+Generated: 2025-12-19 18:47:25
+Total Test Cases: 8
+
+STRESS STATISTICS:
+----------------------------------------------------------------------
+Mean      : 37.69
+Median    : 30.00
+Std Dev   : 28.99
+Min       : 10.74
+Max       : 87.50
+
+CATEGORY DISTRIBUTION:
+----------------------------------------------------------------------
+Very Low Stress     :   3 cases ( 37.5%)
+Low Stress          :   2 cases ( 25.0%)
+Medium Stress       :   1 cases ( 12.5%)
+High Stress         :   1 cases ( 12.5%)
+Very High Stress    :   1 cases ( 12.5%)
+
+CORRELATION WITH STRESS:
+----------------------------------------------------------------------
+screentime     : +0.8900
+temperature    : +0.6674
+humidity       : +0.4372
+air_quality    : +0.7655
+
+DETAILED RESULTS:
+----------------------------------------------------------------------
+
+[1] T1: Screen 10h, Temp 35°C, Humid 85%, AQ 1.0
+    Input: Screen=10h, Temp=35°C, Humid=85%, AQ=1.0 PPM
+    Output: Stress=70.00 (High Stress)
+
+[2] T2: Screen 2h, Temp 25°C, Humid 50%, AQ 0.8
+    Input: Screen=2h, Temp=25°C, Humid=50%, AQ=0.8 PPM
+    Output: Stress=10.74 (Very Low Stress)
+
+[3] T3: Screen 2h, Temp 25°C, Humid 95%, AQ 0.1
+    Input: Screen=2h, Temp=25°C, Humid=95%, AQ=0.1 PPM
+    Output: Stress=12.50 (Very Low Stress)
+
+[4] T4: Screen 3h, Temp 24°C, Humid 50%, AQ 0.1
+    Input: Screen=3h, Temp=24°C, Humid=50%, AQ=0.1 PPM
+    Output: Stress=10.74 (Very Low Stress)
+
+[5] T5: Screen 0h, Temp 10°C, Humid 0%, AQ 0.0
+    Input: Screen=0h, Temp=10°C, Humid=0%, AQ=0.0 PPM
+    Output: Stress=30.00 (Low Stress)
+
+[6] T6: Screen 12h, Temp 40°C, Humid 100%, AQ 5.0
+    Input: Screen=12h, Temp=40°C, Humid=100%, AQ=5.0 PPM
+    Output: Stress=87.50 (Very High Stress)
+
+[7] T7: Screen 1h, Temp 15°C, Humid 40%, AQ 0.4
+    Input: Screen=1h, Temp=15°C, Humid=40%, AQ=0.4 PPM
+    Output: Stress=30.00 (Low Stress)
+
+[8] T8: Screen 5h, Temp 38°C, Humid 50%, AQ 0.5
+    Input: Screen=5h, Temp=38°C, Humid=50%, AQ=0.5 PPM
+    Output: Stress=50.00 (Medium Stress)

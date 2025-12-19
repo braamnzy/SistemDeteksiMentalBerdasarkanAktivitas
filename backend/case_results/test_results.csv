@@ -1,0 +1,9 @@
+id,screentime,temperature,humidity,air_quality,stress_value,category,description
+1,10,35,85,1.0,70.0,High Stress,"T1: Screen 10h, Temp 35°C, Humid 85%, AQ 1.0"
+2,2,25,50,0.8,10.74,Very Low Stress,"T2: Screen 2h, Temp 25°C, Humid 50%, AQ 0.8"
+3,2,25,95,0.1,12.5,Very Low Stress,"T3: Screen 2h, Temp 25°C, Humid 95%, AQ 0.1"
+4,3,24,50,0.1,10.74,Very Low Stress,"T4: Screen 3h, Temp 24°C, Humid 50%, AQ 0.1"
+5,0,10,0,0.0,30.0,Low Stress,"T5: Screen 0h, Temp 10°C, Humid 0%, AQ 0.0"
+6,12,40,100,5.0,87.5,Very High Stress,"T6: Screen 12h, Temp 40°C, Humid 100%, AQ 5.0"
+7,1,15,40,0.4,30.0,Low Stress,"T7: Screen 1h, Temp 15°C, Humid 40%, AQ 0.4"
+8,5,38,50,0.5,50.0,Medium Stress,"T8: Screen 5h, Temp 38°C, Humid 50%, AQ 0.5"
