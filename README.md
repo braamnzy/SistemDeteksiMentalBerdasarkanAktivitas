@@ -1,129 +1,100 @@
-# 🧠 Stress Detection Based on Smartphone Activity and Room Quality
+# 📱 Stress Detection System: Smartphone Activity & Room Quality Analysis
 
-Proyek ini bertujuan untuk **mendeteksi tingkat stres pengguna** berdasarkan **aktivitas smartphone** dan **kualitas lingkungan ruangan** menggunakan pendekatan **Fuzzy Logic**.  
-Sistem ini menggabungkan data dari **smartphone** (melalui Digital Wellbeing dan sensor internal) serta **IoT device** (sensor suhu, kelembapan, dan kualitas udara) untuk menghasilkan analisis kondisi mental pengguna secara otomatis dan berkelanjutan.
+Proyek ini adalah sistem pemantauan kesehatan mental berbasis **Logika Fuzzy Mamdani**. Sistem ini mengintegrasikan durasi penggunaan layar smartphone (*screen time*) dan kualitas lingkungan fisik (suhu, kelembapan, udara) untuk mendeteksi tingkat stres pengguna secara real-time.
 
----
+## 🛠️ Arsitektur & Alur Sistem
 
-## 📱 Sistem Utama
-
-### 1. Pengumpulan Data
-- **Smartphone Data:**
-  - Durasi aktif penggunaan aplikasi (terutama kategori sosial, hiburan, dan produktivitas)
-- **IoT Sensor Data:**
-  - Suhu (°C)
-  - Kelembapan (%)
-  - Kualitas udara (PM2.5)
-
-Data dikirim secara **otomatis dan berkala** ke server Python melalui API, **meskipun aplikasi tidak sedang dibuka**, agar sistem dapat memantau kondisi pengguna secara real-time.
+1. **Android Client:** Memantau penggunaan aplikasi melalui `UsageStatsManager` dan mengirimkan data secara periodik ke server di background menggunakan `WorkManager`.
+2. **IoT Simulator:** Mengirimkan data simulasi kondisi ruangan (suhu, kelembapan, PM2.5) secara otomatis.
+3. **Flask Server:** Bertindak sebagai hub pusat yang menerima data, menjalankan mesin inferensi fuzzy, dan menyimpan riwayat ke CSV.
+4. **Fuzzy Logic Engine:** Mengolah 4 input sensor menggunakan 81 aturan fuzzy untuk menentukan skor stres (0-100).
+5. **Dashboard Web:** Visualisasi real-time distribusi probabilitas fuzzy, status sensor, dan grafik fungsi keanggotaan.
 
 ---
 
-### 2. Penyimpanan Dataset
-Semua data aktivitas dikombinasikan dan disimpan dalam **dataset_(device_id)`.csv`** agar mudah digunakan untuk:
-- Analisis statistik
-- Pelatihan model fuzzy
-- Monitoring perubahan stres pengguna dari waktu ke waktu
+## 📂 Struktur Proyek
 
----
-
-### 3. Pemrosesan Data (Server Python)
-Server menggunakan **Flask** untuk menerima data dari smartphone dan perangkat IoT.  
-Kemudian data diolah menggunakan **Fuzzy Logic System** dengan parameter utama seperti:
-- Durasi Aktif Penggunaan Smartphone
-- Kondisi lingkungan (panas, lembap, atau udara buruk)
-
-Output sistem berupa **tingkat stres (Very Low, Low, Medium, High, Very High)**.
-
----
-
-### 4. Hasil Deteksi
-Hasil akhir ditampilkan pada perangkat pengguna melalui **pop-up notifikasi**, menyerupai notifikasi sistem.  
-Contoh:
-> ⚠️ Kondisi tidak ideal. Segera istirahat dan perbaiki lingkungan sekitar.
-
----
-
-## ⚙️ Arsitektur Sistem
-Smartphone ─┬─ IoT Rekayasa
-            │
-            │ (JSON Request)
-            │
-       App Server
-            │
-            │ (Call Fuzzy Function)
-            │
-    Fuzzy Processing
-            │
-            │ (Return Message & Level via Server JSON)
-            │
- Smartphone Notification
-
----
-
-## 🧩 Teknologi yang Digunakan
-- **Python (Flask, Numpy, Pandas, Scikit-Fuzzy)**  
-- **Android (Usage Stats API)**  
-- **IoT/Rekayasa IoT (ESP32 / DHT11 / MQ135 atau sensor lingkungan lainnya)**  
-- **CSV Dataset Logging**  
-- **Fuzzy Logic Inference System**  
-
----
-
-## 🧠 Metode Fuzzy Logic
-Sistem fuzzy digunakan untuk mengubah input numerik menjadi kategori linguistik seperti:
-- *Durasi penggunaan tinggi*
-- *Suhu ruangan panas*
-- *Kelembapan rendah*
-- *Kualitas Udara Buruk*
-
-Dengan rule base scikit-fuzzy seperti:
-  ctrl.Rule(screen['high'] & temp['cold'] & humid['low'] & airq['good'], stress['medium']),
-  ctrl.Rule(screen['high'] & temp['cold'] & humid['low'] & airq['moderate'], stress['high']),
-  ctrl.Rule(screen['high'] & temp['cold'] & humid['low'] & airq['poor'], stress['high'])
-
----
-
-## 📊 Output
-- Dataset otomatis disimpan ke file `dataset_(device_id).csv`
-- Hasil inferensi fuzzy ditampilkan di pop-up notifikasi device
-- Dapat diperluas untuk visualisasi dashboard atau pelatihan model AI di masa depan
-
----
-
-## 🚀 Tujuan Akhir
-Membangun sistem **deteksi stres cerdas** berbasis **aktivitas digital dan lingkungan**, yang:
-- Berjalan otomatis di background
-- Menggabungkan sumber data lintas perangkat IoT & Android
-- Memberikan umpan balik notifikasi kepada pengguna
-
----
-
-## 👩‍💻 Pengembang
-**Nama:** Zefa, Abyan, Nabil, Raihan  
-**Program Studi:** Teknik Komputer, Universitas Jenderal Soedirman  
-**Tahun:** 2025  
-
----
-
-## 📁 Struktur Proyek (Contoh)
-
-Projects/
+```text
+.
+├── Android (Mobile App)
+│   ├── MainActivity.kt       # UI Utama, perizinan, dan konfigurasi IP Server
+│   └── UsageDataWorker.kt    # Background task pengumpul & pengirim data aplikasi
 │
-├── Android/                         # Project Android
-│   ├── app/src/main/java/...
-│   └── build.gradle.kts
-│
-├── backend/                      
-│   ├── app.py                    #app server
-│   ├── logic
-│         ├── fuzzy_logic.py     #AI Fuzzy Logic
-│   └── room_generator
-│
-└── README.md                    # Dokumentasi proyek
+├── Backend (Flask Server)
+│   ├── app.py                # REST API endpoints & manajemen data CSV
+│   ├── logic/
+│   │   └── fuzzy_logic.py    # Mesin Inferensi Fuzzy (Scikit-Fuzzy)
+│   ├── room_generator.py     # Simulator IoT sensor ruangan
+│   ├── templates/
+│   │   └── dashboard.html    # UI Dashboard interaktif (Chart.js)
+│   └── data/                 # Penyimpanan dataset otomatis (.csv)
+
+```
 
 ---
 
-## 📜 Lisensi
-Proyek ini dikembangkan untuk tujuan akademik dan penelitian.
+## 🧠 Analisis Fuzzy Mamdani
 
+Sistem ini menggunakan 4 variabel input untuk menentukan 1 variabel output (Stres):
+
+| Input Sensor | Range | Kategori Lingkungan |
+| --- | --- | --- |
+| **Screen Time** | 0 - 24 Jam | Low, Medium, High |
+| **Temperature** | 15 - 35 °C | Cold, Normal, Hot |
+| **Humidity** | 30 - 90 % | Low, Medium, High |
+| **Air Quality** | 0 - 5 PM2.5 | Good, Moderate, Poor |
+
+**Output:** Nilai 0-100 yang dikategorikan menjadi: *Very Low, Low, Medium, High, & Very High Stress*.
+
+---
+
+## 🚀 Cara Menjalankan
+
+### 1. Backend & Dashboard
+
+Pastikan Python telah terinstal, lalu instal library:
+
+```bash
+pip install flask numpy scikit-fuzzy okhttp3 requests
+
+```
+
+Jalankan server:
+
+```bash
+python app.py
+
+```
+
+Akses dashboard di `http://localhost:5000`.
+
+### 2. Simulator IoT
+
+Jalankan simulator di terminal terpisah untuk mengisi data lingkungan:
+
+```bash
+python room_generator.py
+
+```
+
+### 3. Aplikasi Android
+
+1. Buka project Android di Android Studio.
+2. Pastikan smartphone dan laptop berada di jaringan Wi-Fi yang sama.
+3. Jalankan aplikasi, tekan tombol **"Ubah IP"** dan masukkan alamat IP laptop Anda (contoh: `http://192.168.1.50:5000`).
+4. Berikan izin **Usage Stats** agar aplikasi bisa membaca data durasi layar.
+
+---
+
+## 📊 Fitur Utama
+
+* **Automatic Logging:** Data disimpan otomatis ke `data/dataset_(device_id).csv` untuk kebutuhan riset lebih lanjut.
+* **Real-time Notification:** Jika hasil analisis menunjukkan *High* atau *Very High Stress*, smartphone akan menerima notifikasi peringatan secara instan.
+* **Fuzzy Visualization:** Dashboard menampilkan grafik fungsi keanggotaan trapesium dan distribusi output secara dinamis.
+
+---
+
+## 👥 Tim Pengembang
+
+* **Zefa, Abyan, Nabil, Raihan**
+* *Teknik Komputer, Universitas Jenderal Soedirman (2025)*
