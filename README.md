@@ -79,10 +79,11 @@ python room_generator.py
 
 ### 3. Aplikasi Android
 
-1. Buka project Android di Android Studio.
-2. Pastikan smartphone dan laptop berada di jaringan Wi-Fi yang sama.
-3. Jalankan aplikasi, tekan tombol **"Ubah IP"** dan masukkan alamat IP laptop Anda (contoh: `http://192.168.1.50:5000`).
-4. Berikan izin **Usage Stats** agar aplikasi bisa membaca data durasi layar.
+1. Buka project Android di Android Studio, atur NSC sesuai IP server.
+2. Build dan Install Apl di lokasi: app\build\outputs\apk\debug.
+3. Pastikan smartphone dan laptop berada di jaringan Wi-Fi yang sama.
+4. Jalankan aplikasi, tekan tombol **"Ubah IP"** dan masukkan alamat IP laptop Anda (contoh: `http://192.168.1.50:5000`).
+5. Berikan izin Notifikasi dan **Usage Stats** agar aplikasi bisa membaca data durasi layar.
 
 ---
 
