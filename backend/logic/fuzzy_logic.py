@@ -215,25 +215,30 @@ def calculate_stress(screentime, temperature, humidity, air_quality):
 
 # 6. Bagian Testing (MAIN)
 if __name__ == '__main__':
-    print("="*60)
-    print("TESTING FUZZY LOGIC SYSTEM (SCIKIT-FUZZY ENGINE)")
-    print("="*60)
+    print("="*70)
+    print("SISTEM DETEKSI STRES - PENGUJIAN SKENARIO FUZZY MAMDANI")
+    print("="*70)
     
-    # Test Case 1: Paling stres
-    print("\n[TEST 1] Screen Tinggi + Panas + Lembab + AQ Buruk")
-    result1 = calculate_stress(18, 33, 85, 4.5)
-    print(f"Result: {result1}")
-    
-    # Test Case 2: Optimal
-    print("\n[TEST 2] Screen Rendah + Suhu Nyaman + Humid Ideal")
-    result2 = calculate_stress(1.5, 24, 55, 0.2)
-    print(f"Result: {result2}")
-    
-    # Test Case 3: Medium (Screen Sedang)
-    print("\n[TEST 3] Screen Sedang + Kondisi Lingkungan Normal")
-    result3 = calculate_stress(6, 25, 60, 1.5)
-    print(f"Result: {result3}")
+    # Daftar Test Case sesuai skenario laporan
+    # Format: (Screen Time, Suhu, Kelembaban, Kualitas Udara)
+    test_cases = [
+        (10, 35, 85, 1.0),  # T1: Tinggi + Panas + Lembab + Baik
+        (2, 25, 50, 0.8),   # T2: Rendah + Normal + Medium + Baik
+        (2, 25, 95, 0.1),   # T3: Rendah + Normal + Tinggi + Baik
+        (3, 24, 50, 0.1),   # T4: Rendah + Normal + Medium + Baik
+        (0, 10, 0, 0.0),    # T5: Rendah + Dingin + Rendah + Baik (Clipped)
+        (12, 40, 100, 5.0), # T6: Tinggi + Panas + Tinggi + Buruk (Clipped)
+        (1, 15, 40, 0.4),   # T7: Rendah + Dingin + Rendah + Baik
+        (5, 38, 50, 0.5)    # T8: Sedang + Panas + Medium + Baik (Clipped)
+    ]
 
-    print("\n" + "="*60)
-    print("TESTING SELESAI")
-    print("="*60)
+    for i, (st, temp_val, hum, aq) in enumerate(test_cases, 1):
+        result = calculate_stress(st, temp_val, hum, aq)
+        print(f"\n[TEST {i}]")
+        print(f"Input  => Screen: {st}h, Temp: {temp_val}°C, Humid: {hum}%, AQ: {aq}")
+        print(f"Output => Skor: {result['stress_value']}, Kategori: {result['category']}")
+        print(f"Pesan  => {result['message']}")
+        
+    print("\n" + "="*70)
+    print("PENGUJIAN SELESAI")
+    print("="*70)
